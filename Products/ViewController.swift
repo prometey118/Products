@@ -40,8 +40,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
         
         collectionView.dataSource = self
@@ -55,7 +55,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         let advertisement = advertisements[indexPath.row]
         cell.loadImage(from: advertisement.imageURL) 
-        cell.textView.text = advertisement.title
+        cell.nameView.text = advertisement.title
+        cell.priceView.text = advertisement.price
+        cell.locationView.text = advertisement.location
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -73,26 +75,59 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     class CustomCell: UICollectionViewCell {
         let catImageView = UIImageView()
-        let textView = UITextView()
+        let nameView = UITextView()
+        let priceView = UITextView()
+        let locationView = UITextView()
         override init(frame: CGRect) {
             super.init(frame: frame)
             addSubview(catImageView)
-            addSubview(textView)
+            addSubview(nameView)
+            addSubview(priceView)
+            addSubview(locationView)
             
             catImageView.translatesAutoresizingMaskIntoConstraints = false
             catImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             catImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
             catImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7).isActive = true
+            catImageView.layer.cornerRadius = 10
+            catImageView.layer.masksToBounds = true
             
-            textView.translatesAutoresizingMaskIntoConstraints = false
-            textView.topAnchor.constraint(equalTo: catImageView.bottomAnchor).isActive = true
-            textView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-            textView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            textView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+            nameView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                nameView.topAnchor.constraint(equalTo: catImageView.bottomAnchor), // Adjust the constant value as needed
+                nameView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                nameView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                nameView.heightAnchor.constraint(equalToConstant: 25)
+            ])
             
-            textView.isEditable = false
-            textView.isScrollEnabled = false
-            textView.textContainer.lineBreakMode = .byTruncatingTail
+            nameView.isEditable = false
+            nameView.isScrollEnabled = false
+            nameView.textContainer.lineBreakMode = .byWordWrapping
+            
+            
+            priceView.translatesAutoresizingMaskIntoConstraints = false
+            priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
+            priceView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            priceView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+            priceView.heightAnchor.constraint(equalToConstant:25).isActive = true
+            
+            priceView.isEditable = false
+            priceView.isScrollEnabled = false
+            priceView.textContainer.lineBreakMode = .byTruncatingTail
+            
+            locationView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                        locationView.topAnchor.constraint(equalTo: priceView.bottomAnchor),
+                        locationView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                        locationView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                        locationView.heightAnchor.constraint(equalToConstant: 25),
+                        locationView.bottomAnchor.constraint(equalTo: bottomAnchor)  // This will pin the locationView to the bottom of the cell
+                    ])
+            
+            locationView.isEditable = false
+            locationView.isScrollEnabled = false
+            locationView.textContainer.lineBreakMode = .byTruncatingTail
+            
         }
         
         required init?(coder: NSCoder) {
