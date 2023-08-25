@@ -9,7 +9,7 @@ import Foundation
 import Foundation
 
 class JSONLoader {
-    func loadJSON(completion: @escaping (Result<Products, Error>) -> Void) {
+    private func loadJSON(completion: @escaping (Result<Products, Error>) -> Void) {
         guard let url = URL(string: "https://www.avito.st/s/interns-ios/main-page.json") else {
             completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
             return
@@ -33,7 +33,6 @@ class JSONLoader {
             
             do {
                 let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let welcome = try decoder.decode(Products.self, from: data)
                 DispatchQueue.main.async {
                     completion(.success(welcome))
@@ -41,27 +40,31 @@ class JSONLoader {
             } catch {
                 DispatchQueue.main.async {
                     completion(.failure(error))
-                    print("awds")
                 }
             }
         }.resume()
     }
-    func fetchAdvertisements() {
+//    func fetchAdvertisements() {
+//            loadJSON { result in
+//                switch result {
+//                case .success(let products):
+//                    for advertisement in products.advertisements {
+////                        print("Advertisement ID: \(advertisement.id)")
+////                        print("Title: \(advertisement.title)")
+////                        print("Price: \(advertisement.price)")
+////                        print("Location: \(advertisement.location)")
+////                        print("Image URL: \(advertisement.imageURL)")
+////                        print("Created Date: \(advertisement.createdDate)")
+////                        print("--------------")
+//                    }
+//                case .failure(let error):
+//                    print("Error: \(error)")
+//                }
+//            }
+//        }
+    func fetchAdvertisements(completion: @escaping (Result<Products, Error>) -> Void) {
             loadJSON { result in
-                switch result {
-                case .success(let welcome):
-                    for advertisement in welcome.advertisements {
-                        print("Advertisement ID: \(advertisement.id)")
-                        print("Title: \(advertisement.title)")
-                        print("Price: \(advertisement.price)")
-                        print("Location: \(advertisement.location)")
-                        print("Image URL: \(advertisement.imageURL)")
-                        print("Created Date: \(advertisement.createdDate)")
-                        print("--------------")
-                    }
-                case .failure(let error):
-                    print("Error: \(error)")
-                }
+                completion(result)
             }
         }
 }
