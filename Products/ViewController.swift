@@ -8,6 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    let jsonLoader = JSONLoader()
     var collectionView: UICollectionView!
     let temp = ["cat", "cat", "cat", "cat", "cat"]
     override func viewDidLoad() {
@@ -15,6 +16,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         
         setCollectionView()
+        jsonLoader.fetchAdvertisements()
     }
     
     

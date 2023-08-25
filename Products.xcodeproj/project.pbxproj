@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4120BCC2A98AE9A00CFFE82 /* JsonLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4120BCB2A98AE9A00CFFE82 /* JsonLoad.swift */; };
+		C4120BCE2A98C3FD00CFFE82 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4120BCD2A98C3FD00CFFE82 /* ProductsViewModel.swift */; };
 		C41A9B2F2A97DF3A0047691E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A9B2E2A97DF3A0047691E /* AppDelegate.swift */; };
 		C41A9B312A97DF3A0047691E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A9B302A97DF3A0047691E /* SceneDelegate.swift */; };
 		C41A9B332A97DF3A0047691E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41A9B322A97DF3A0047691E /* ViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C4120BCB2A98AE9A00CFFE82 /* JsonLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonLoad.swift; sourceTree = "<group>"; };
+		C4120BCD2A98C3FD00CFFE82 /* ProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		C41A9B2B2A97DF3A0047691E /* Products.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Products.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41A9B2E2A97DF3A0047691E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C41A9B302A97DF3A0047691E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +45,8 @@
 			isa = PBXGroup;
 			children = (
 				C41A9B2D2A97DF3A0047691E /* Products */,
+				C4120BCD2A98C3FD00CFFE82 /* ProductsViewModel.swift */,
+				C4120BCB2A98AE9A00CFFE82 /* JsonLoad.swift */,
 				C41A9B2C2A97DF3A0047691E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -141,6 +147,8 @@
 				C41A9B332A97DF3A0047691E /* ViewController.swift in Sources */,
 				C41A9B2F2A97DF3A0047691E /* AppDelegate.swift in Sources */,
 				C41A9B312A97DF3A0047691E /* SceneDelegate.swift in Sources */,
+				C4120BCE2A98C3FD00CFFE82 /* ProductsViewModel.swift in Sources */,
+				C4120BCC2A98AE9A00CFFE82 /* JsonLoad.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
