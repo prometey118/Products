@@ -11,7 +11,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var collectionView: UICollectionView!
     let temp = ["cat", "cat", "cat", "cat", "cat"]
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        setCollectionView()
+    }
+    
+    
+    func setCollectionView() {
         let layout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.addSubview(collectionView)
@@ -26,7 +33,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
-        
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
@@ -34,6 +40,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         cell.catImageView.image = UIImage(named: temp[indexPath.row])
+        cell.textView.text = "awffa"
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -42,22 +49,29 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     class CustomCell: UICollectionViewCell {
         let catImageView = UIImageView()
+        let textView = UITextField()
         override init(frame: CGRect) {
             super.init(frame: frame)
             addSubview(catImageView)
-            
+            addSubview(textView)
             
             catImageView.translatesAutoresizingMaskIntoConstraints = false
-            catImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            catImageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
             catImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             catImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+            catImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7).isActive = true
+            
+            textView.translatesAutoresizingMaskIntoConstraints = false
+            textView.topAnchor.constraint(equalTo: catImageView.bottomAnchor).isActive = true
+            textView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            textView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+            textView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+            
         }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
     }
-
+    
 }
 
