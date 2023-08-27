@@ -17,7 +17,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         setCollectionView()
         DispatchQueue.global(qos: .utility).async {
-            self.jsonLoader.fetchAdvertisements { result in
+            self.jsonLoader.fetchProducts() { result in
                 switch result {
                 case .success(let products):
                     self.didLoadProducts(products)
