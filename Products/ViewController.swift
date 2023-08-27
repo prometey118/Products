@@ -14,7 +14,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        view.backgroundColor = .white
         setCollectionView()
         DispatchQueue.global(qos: .utility).async {
             self.jsonLoader.fetchProducts() { result in
@@ -63,6 +63,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return CGSize(width: view.frame.width/2 - 20, height: 250)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedAdvertisement = advertisements[indexPath.row]
+        print(selectedAdvertisement.id)
+        let detailViewController = DetailViewController()
+        detailViewController.itemId = selectedAdvertisement.id
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+
     func didLoadProducts(_ products: Products) {
         advertisements = products.advertisements
         DispatchQueue.main.async {

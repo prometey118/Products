@@ -48,7 +48,7 @@ class JSONLoader {
             }
         }
     
-    func fetchDetailData(itemId: Int, completion: @escaping (Result<Product, Error>) -> Void) {
+    func fetchDetailData(itemId: String, completion: @escaping (Result<Product, Error>) -> Void) {
             let urlString = "https://www.avito.st/s/interns-ios/details/\(itemId).json"
             guard let url = URL(string: urlString) else {
                 completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
