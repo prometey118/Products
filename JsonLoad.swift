@@ -9,64 +9,54 @@ import Foundation
 import Foundation
 
 class JSONLoader {
-    private func loadJSON(completion: @escaping (Result<Products, Error>) -> Void) {
-        guard let url = URL(string: "https://www.avito.st/s/interns-ios/main-page.json") else {
-            completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
-            return
-        }
-        
+    private func loadJSON<T: Codable>(from url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
-            }
-            
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    completion(.failure(NSError(domain: "No data received", code: -2, userInfo: nil)))
-                    print("data")
-                }
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let welcome = try decoder.decode(Products.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(welcome))
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-            }
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        DispatchQueue.main.async {
+                            completion(.failure(NSError(domain: "No data received", code: -2, userInfo: nil)))
+                        }
+                        return
+                    }
+                    
+                    do {
+                        let decoder = JSONDecoder()
+                        let decodedData = try decoder.decode(T.self, from: data)
+                        DispatchQueue.main.async {
+                            completion(.success(decodedData))
+                        }
+                    } catch {
+                        DispatchQueue.main.async {
+                            completion(.failure(error))
+                        }
+                    }
         }.resume()
     }
-//    func fetchAdvertisements() {
-//            loadJSON { result in
-//                switch result {
-//                case .success(let products):
-//                    for advertisement in products.advertisements {
-////                        print("Advertisement ID: \(advertisement.id)")
-////                        print("Title: \(advertisement.title)")
-////                        print("Price: \(advertisement.price)")
-////                        print("Location: \(advertisement.location)")
-////                        print("Image URL: \(advertisement.imageURL)")
-////                        print("Created Date: \(advertisement.createdDate)")
-////                        print("--------------")
-//                    }
-//                case .failure(let error):
-//                    print("Error: \(error)")
-//                }
-//            }
-//        }
     func fetchAdvertisements(completion: @escaping (Result<Products, Error>) -> Void) {
-            loadJSON { result in
+            guard let url = URL(string: "https://www.avito.st/s/interns-ios/main-page.json") else {
+                completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+                return
+            }
+            loadJSON(from: url) { (result: Result<Products, Error>) in
+                completion(result)
+            }
+        }
+    
+    func fetchDetailData(itemId: Int, completion: @escaping (Result<Product, Error>) -> Void) {
+            let urlString = "https://www.avito.st/s/interns-ios/details/\(itemId).json"
+            guard let url = URL(string: urlString) else {
+                completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
+                return
+            }
+            loadJSON(from: url) { (result: Result<Product, Error>) in
                 completion(result)
             }
         }
 }
 
-// Использование
