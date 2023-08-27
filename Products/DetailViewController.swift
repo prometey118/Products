@@ -60,7 +60,7 @@ class DetailViewController: UIViewController {
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
-]        NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
             priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
