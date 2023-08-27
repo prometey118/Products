@@ -11,7 +11,7 @@ struct Product: Codable {
     let imageURL: String
     let createdDate, description, email, phoneNumber: String
     let address: String
-
+    
     enum CodingKeys: String, CodingKey {
         case id, title, price, location
         case imageURL = "image_url"

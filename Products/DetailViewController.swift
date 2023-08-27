@@ -12,41 +12,41 @@ class DetailViewController: UIViewController {
     let jsonLoader = JSONLoader()
     
     private let titleLabel: UILabel = {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
-        
-        private let priceLabel: UILabel = {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
-        
-        private let locationLabel: UILabel = {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let locationLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
         if let itemId = itemId {
-                    jsonLoader.fetchDetailData(itemId: itemId) { result in
-                        switch result {
-                        case .success(let product):
-                            self.titleLabel.text = product.title
-                            self.priceLabel.text = product.price
-                            self.locationLabel.text = product.location
-
-                            
-                        case .failure(let error):
-                            print("Ошибка при получении данных: \(error)")
-                        }
-                    }
+            jsonLoader.fetchDetailData(itemId: itemId) { result in
+                switch result {
+                case .success(let product):
+                    self.titleLabel.text = product.title
+                    self.priceLabel.text = product.price
+                    self.locationLabel.text = product.location
+                    
+                    
+                case .failure(let error):
+                    print("Ошибка при получении данных: \(error)")
                 }
-
+            }
+        }
+        
     }
     
     private func setupUI() {
@@ -72,15 +72,15 @@ class DetailViewController: UIViewController {
             locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

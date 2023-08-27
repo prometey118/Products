@@ -53,7 +53,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         let advertisement = advertisements[indexPath.row]
-        cell.loadImage(from: advertisement.imageURL) 
+        cell.loadImage(from: advertisement.imageURL)
         cell.nameView.text = advertisement.title
         cell.priceView.text = advertisement.price
         cell.locationView.text = advertisement.location
@@ -70,7 +70,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         detailViewController.itemId = selectedAdvertisement.id
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-
+    
     func didLoadProducts(_ products: Products) {
         advertisements = products.advertisements
         DispatchQueue.main.async {
@@ -124,12 +124,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             locationView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                        locationView.topAnchor.constraint(equalTo: priceView.bottomAnchor),
-                        locationView.leadingAnchor.constraint(equalTo: leadingAnchor),
-                        locationView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                        locationView.heightAnchor.constraint(equalToConstant: 25),
-                        locationView.bottomAnchor.constraint(equalTo: bottomAnchor)  
-                    ])
+                locationView.topAnchor.constraint(equalTo: priceView.bottomAnchor),
+                locationView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                locationView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                locationView.heightAnchor.constraint(equalToConstant: 25),
+                locationView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            ])
             
             locationView.isEditable = false
             locationView.isScrollEnabled = false
