@@ -65,7 +65,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedAdvertisement = advertisements[indexPath.row]
-        print(selectedAdvertisement.id)
         let detailViewController = DetailViewController()
         detailViewController.itemId = selectedAdvertisement.id
         navigationController?.pushViewController(detailViewController, animated: true)
@@ -81,27 +80,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     class CustomCell: UICollectionViewCell {
-        let catImageView = UIImageView()
+        let imageView = UIImageView()
         let nameView = UITextView()
         let priceView = UITextView()
         let locationView = UITextView()
         override init(frame: CGRect) {
             super.init(frame: frame)
-            addSubview(catImageView)
+            addSubview(imageView)
             addSubview(nameView)
             addSubview(priceView)
             addSubview(locationView)
             
-            catImageView.translatesAutoresizingMaskIntoConstraints = false
-            catImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-            catImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            catImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7).isActive = true
-            catImageView.layer.cornerRadius = 10
-            catImageView.layer.masksToBounds = true
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7).isActive = true
+            imageView.layer.cornerRadius = 10
+            imageView.layer.masksToBounds = true
             
             nameView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                nameView.topAnchor.constraint(equalTo: catImageView.bottomAnchor),
+                nameView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
                 nameView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 nameView.trailingAnchor.constraint(equalTo: trailingAnchor),
                 nameView.heightAnchor.constraint(equalToConstant: 25)
@@ -153,7 +152,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 
                 if let imageData = data, let image = UIImage(data: imageData) {
                     DispatchQueue.main.async {
-                        self.catImageView.image = image
+                        self.imageView.image = image
                     }
                 }
             }.resume()
