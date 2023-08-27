@@ -11,7 +11,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let jsonLoader = JSONLoader()
     var collectionView: UICollectionView!
     var advertisements: [Advertisement] = []
-    let temp = ["cat", "cat", "cat", "cat", "cat"]
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -94,7 +93,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             
             nameView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                nameView.topAnchor.constraint(equalTo: catImageView.bottomAnchor), // Adjust the constant value as needed
+                nameView.topAnchor.constraint(equalTo: catImageView.bottomAnchor),
                 nameView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 nameView.trailingAnchor.constraint(equalTo: trailingAnchor),
                 nameView.heightAnchor.constraint(equalToConstant: 25)
@@ -121,7 +120,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                         locationView.leadingAnchor.constraint(equalTo: leadingAnchor),
                         locationView.trailingAnchor.constraint(equalTo: trailingAnchor),
                         locationView.heightAnchor.constraint(equalToConstant: 25),
-                        locationView.bottomAnchor.constraint(equalTo: bottomAnchor)  // This will pin the locationView to the bottom of the cell
+                        locationView.bottomAnchor.constraint(equalTo: bottomAnchor)  
                     ])
             
             locationView.isEditable = false
