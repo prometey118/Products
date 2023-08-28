@@ -12,13 +12,15 @@ class DetailViewController: UIViewController {
     let jsonLoader = JSONLoader()
     var productView: Product?
     private let contactButton: UIButton = {
-            let button = UIButton()
-            button.setTitle("Позвонить", for: .normal)
-            button.setTitleColor(.blue, for: .normal)
-            button.addTarget(self, action: #selector(contactButtonTapped), for: .touchUpInside)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            return button
-        }()
+        let button = UIButton()
+        button.setTitle("Позвонить", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(contactButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1)
+        button.layer.cornerRadius = 5
+        return button
+    }()
     private let titleLabel = LabelSetup.makeLabel()
     private let priceLabel = LabelSetup.makeLabel()
     private let locationLabel = LabelSetup.makeLabel()
@@ -91,9 +93,10 @@ class DetailViewController: UIViewController {
             adressLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-                    contactButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
-                    contactButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-                ])
+            contactButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
+            contactButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
         loadImage(from: product.imageURL)
     }
     
@@ -116,16 +119,19 @@ class DetailViewController: UIViewController {
         }.resume()
     }
     @objc private func contactButtonTapped() {
-            if let product = productView {
-                showContactAlert(for: product)
-            }
+        if let product = productView {
+            showContactAlert(for: product)
         }
-        
-        private func showContactAlert(for product: Product) {
-            let alert = UIAlertController(title: "", message: "Номер телефона: \(product.phoneNumber)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
+    }
+    
+    private func showContactAlert(for product: Product) {
+        let alert = UIAlertController(title: "", message: "Номер телефона: \(product.phoneNumber)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Скопировать", style: .default) { _ in
+            UIPasteboard.general.string = product.phoneNumber
+        })
+        alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     
 }
 class LabelSetup {
