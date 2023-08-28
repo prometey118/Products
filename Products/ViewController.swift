@@ -109,17 +109,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             nameView.isEditable = false
             nameView.isScrollEnabled = false
             nameView.textContainer.lineBreakMode = .byWordWrapping
-            
+            nameView.font = UIFont.systemFont(ofSize: 16)
             
             priceView.translatesAutoresizingMaskIntoConstraints = false
             priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
             priceView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             priceView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            priceView.heightAnchor.constraint(equalToConstant:25).isActive = true
+            priceView.heightAnchor.constraint(equalToConstant:30).isActive = true
             
             priceView.isEditable = false
             priceView.isScrollEnabled = false
             priceView.textContainer.lineBreakMode = .byTruncatingTail
+            priceView.font = UIFont.boldSystemFont(ofSize: 16)
             
             locationView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -133,6 +134,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             locationView.isEditable = false
             locationView.isScrollEnabled = false
             locationView.textContainer.lineBreakMode = .byTruncatingTail
+            locationView.font = UIFont.systemFont(ofSize: 14)
+            locationView.textColor = .gray
             
         }
         

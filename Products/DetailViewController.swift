@@ -42,6 +42,7 @@ class DetailViewController: UIViewController {
         
         
         titleLabel.text = product.title
+        titleLabel.font = UIFont.systemFont(ofSize: 20)
         priceLabel.text = product.price
         locationLabel.text = product.location
         imageView.contentMode = .scaleAspectFill
