@@ -81,9 +81,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     class CustomCell: UICollectionViewCell {
         let imageView = UIImageView()
-        let nameView = UITextView()
-        let priceView = UITextView()
-        let locationView = UITextView()
+        let nameView = UILabel()
+        let priceView = UILabel()
+        let locationView = UILabel()
         override init(frame: CGRect) {
             super.init(frame: frame)
             addSubview(imageView)
@@ -103,7 +103,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7).isActive = true
+            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.65).isActive = true
             imageView.layer.cornerRadius = 10
             imageView.layer.masksToBounds = true
             
@@ -112,13 +112,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 nameView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
                 nameView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 nameView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                nameView.heightAnchor.constraint(equalToConstant: 25)
+                nameView.heightAnchor.constraint(equalToConstant: 40)
             ])
             
-            nameView.isEditable = false
-            nameView.isScrollEnabled = false
-            nameView.textContainer.lineBreakMode = .byWordWrapping
             nameView.font = UIFont.systemFont(ofSize: 16)
+            nameView.numberOfLines = 0
             
             priceView.translatesAutoresizingMaskIntoConstraints = false
             priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
@@ -126,9 +124,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             priceView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
             priceView.heightAnchor.constraint(equalToConstant:30).isActive = true
             
-            priceView.isEditable = false
-            priceView.isScrollEnabled = false
-            priceView.textContainer.lineBreakMode = .byTruncatingTail
+
             priceView.font = UIFont.boldSystemFont(ofSize: 16)
             
             locationView.translatesAutoresizingMaskIntoConstraints = false
@@ -140,9 +136,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 locationView.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
             
-            locationView.isEditable = false
-            locationView.isScrollEnabled = false
-            locationView.textContainer.lineBreakMode = .byTruncatingTail
             locationView.font = UIFont.systemFont(ofSize: 14)
             locationView.textColor = .gray
         }
