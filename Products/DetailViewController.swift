@@ -35,40 +35,43 @@ class DetailViewController: UIViewController {
     }
     
     private func setupUI(product: Product) {
+        view.addSubview(imageView)
         view.addSubview(titleLabel)
         view.addSubview(priceLabel)
         view.addSubview(locationLabel)
-        view.addSubview(imageView)
+        
         
         titleLabel.text = product.title
         priceLabel.text = product.price
         locationLabel.text = product.location
+        imageView.contentMode = .scaleAspectFill
+
         
-        
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-        
-        NSLayoutConstraint.activate([
-            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-        
-        NSLayoutConstraint.activate([
-            locationLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
-            locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            imageView.heightAnchor.constraint(equalToConstant: 200)
-        ])
+                    imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+                    imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                    imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+                    imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3)
+                ])
+                
+                NSLayoutConstraint.activate([
+                    titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+                    titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                    titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+                ])
+                
+                NSLayoutConstraint.activate([
+                    priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+                    priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                    priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+                ])
+                
+                NSLayoutConstraint.activate([
+                    locationLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
+                    locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                    locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+                ])
         loadImage(from: product.imageURL)
     }
     
