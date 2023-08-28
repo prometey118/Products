@@ -10,7 +10,15 @@ import UIKit
 class DetailViewController: UIViewController {
     var itemId: String?
     let jsonLoader = JSONLoader()
-    
+    var productView: Product?
+    private let contactButton: UIButton = {
+            let button = UIButton()
+            button.setTitle("Позвонить", for: .normal)
+            button.setTitleColor(.blue, for: .normal)
+            button.addTarget(self, action: #selector(contactButtonTapped), for: .touchUpInside)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            return button
+        }()
     private let titleLabel = LabelSetup.makeLabel()
     private let priceLabel = LabelSetup.makeLabel()
     private let locationLabel = LabelSetup.makeLabel()
@@ -25,7 +33,7 @@ class DetailViewController: UIViewController {
                 switch result {
                 case .success(let product):
                     self.setupUI(product: product)
-                    
+                    self.productView = product
                     
                 case .failure(let error):
                     print("Ошибка при получении данных: \(error)")
@@ -41,6 +49,7 @@ class DetailViewController: UIViewController {
         view.addSubview(priceLabel)
         view.addSubview(locationLabel)
         view.addSubview(adressLabel)
+        view.addSubview(contactButton)
         
         
         titleLabel.text = product.title
@@ -81,6 +90,10 @@ class DetailViewController: UIViewController {
             adressLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             adressLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
+        NSLayoutConstraint.activate([
+                    contactButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
+                    contactButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+                ])
         loadImage(from: product.imageURL)
     }
     
@@ -102,6 +115,17 @@ class DetailViewController: UIViewController {
             }
         }.resume()
     }
+    @objc private func contactButtonTapped() {
+            if let product = productView {
+                showContactAlert(for: product)
+            }
+        }
+        
+        private func showContactAlert(for product: Product) {
+            let alert = UIAlertController(title: "", message: "Номер телефона: \(product.phoneNumber)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
     
 }
 class LabelSetup {
