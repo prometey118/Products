@@ -90,7 +90,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addSubview(nameView)
             addSubview(priceView)
             addSubview(locationView)
+            setUpConstraits()
             
+            
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        func setUpConstraits() {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
@@ -136,11 +145,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             locationView.textContainer.lineBreakMode = .byTruncatingTail
             locationView.font = UIFont.systemFont(ofSize: 14)
             locationView.textColor = .gray
-            
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
         }
         func loadImage(from url: String) {
             guard let imageUrl = URL(string: url) else {
