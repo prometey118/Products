@@ -11,9 +11,9 @@ class DetailViewController: UIViewController {
     var itemId: String?
     let jsonLoader = JSONLoader()
     
-    private let titleLabel = TextViewSetup.makeTextView()
-    private let priceLabel = TextViewSetup.makeTextView()
-    private let locationLabel = TextViewSetup.makeTextView()
+    private let titleLabel = LabelSetup.makeLabel()
+    private let priceLabel = LabelSetup.makeLabel()
+    private let locationLabel = LabelSetup.makeLabel()
     private let imageView = UIImageView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,12 +53,11 @@ class DetailViewController: UIViewController {
                     imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
                     imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
                     imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-//                    imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3)
                     imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0/1.5)
                 ])
                 
                 NSLayoutConstraint.activate([
-                    titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 40),
+                    titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 60),
                     titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
                     titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
                 ])
@@ -97,13 +96,11 @@ class DetailViewController: UIViewController {
     }
     
 }
-class TextViewSetup {
-    static func makeTextView() -> UITextView {
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainer.lineBreakMode = .byTruncatingTail
-        return textView
+class LabelSetup {
+    static func makeLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        return label
     }
 }

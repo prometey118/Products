@@ -57,6 +57,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         cell.nameView.text = advertisement.title
         cell.priceView.text = advertisement.price
         cell.locationView.text = advertisement.location
+        cell.createdDateView.text = advertisement.createdDate
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -84,12 +85,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let nameView = UILabel()
         let priceView = UILabel()
         let locationView = UILabel()
+        let createdDateView = UILabel()
         override init(frame: CGRect) {
             super.init(frame: frame)
             addSubview(imageView)
             addSubview(nameView)
             addSubview(priceView)
             addSubview(locationView)
+            addSubview(createdDateView)
             setUpConstraits()
             
             
@@ -122,7 +125,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
             priceView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             priceView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            priceView.heightAnchor.constraint(equalToConstant:30).isActive = true
+            priceView.heightAnchor.constraint(equalToConstant:20).isActive = true
             
 
             priceView.font = UIFont.boldSystemFont(ofSize: 16)
@@ -132,12 +135,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 locationView.topAnchor.constraint(equalTo: priceView.bottomAnchor),
                 locationView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 locationView.trailingAnchor.constraint(equalTo: trailingAnchor),
-                locationView.heightAnchor.constraint(equalToConstant: 25),
-                locationView.bottomAnchor.constraint(equalTo: bottomAnchor)
+                locationView.heightAnchor.constraint(equalToConstant: 20)
             ])
             
             locationView.font = UIFont.systemFont(ofSize: 14)
             locationView.textColor = .gray
+            
+            createdDateView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                createdDateView.topAnchor.constraint(equalTo: locationView.bottomAnchor),
+                createdDateView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                createdDateView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                createdDateView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            ])
+            createdDateView.font = UIFont.systemFont(ofSize: 14)
+            createdDateView.textColor = .gray
         }
         func loadImage(from url: String) {
             guard let imageUrl = URL(string: url) else {
