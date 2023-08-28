@@ -15,6 +15,7 @@ class DetailViewController: UIViewController {
     private let priceLabel = LabelSetup.makeLabel()
     private let locationLabel = LabelSetup.makeLabel()
     private let imageView = UIImageView()
+    private let adressLabel = LabelSetup.makeLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -39,12 +40,14 @@ class DetailViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(priceLabel)
         view.addSubview(locationLabel)
+        view.addSubview(adressLabel)
         
         
         titleLabel.text = product.title
         titleLabel.font = UIFont.systemFont(ofSize: 20)
         priceLabel.text = product.price
         locationLabel.text = product.location
+        adressLabel.text = product.address
         imageView.contentMode = .scaleAspectFill
 
         
@@ -73,6 +76,11 @@ class DetailViewController: UIViewController {
                     locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
                     locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
                 ])
+        NSLayoutConstraint.activate([
+            adressLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
+            adressLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            adressLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
         loadImage(from: product.imageURL)
     }
     
