@@ -13,16 +13,16 @@ class DetailViewController: UIViewController {
     var productTemp: Product?
     private let contactButton: UIButton = {
         return ButtonSetup.makeButton(title: "Позвонить",
-                                       backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1),
-                                       target: self,
-                                       action: #selector(contactButtonTapped))
+                                      backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1),
+                                      target: self,
+                                      action: #selector(contactButtonTapped))
     }()
-
+    
     private let emailButton: UIButton = {
         return ButtonSetup.makeButton(title: "Написать",
-                                       backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1),
-                                       target: self,
-                                       action: #selector(emailButtonTapped))
+                                      backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1),
+                                      target: self,
+                                      action: #selector(emailButtonTapped))
     }()
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -163,31 +163,24 @@ class DetailViewController: UIViewController {
     }
     @objc private func contactButtonTapped() {
         if let product = productTemp {
-            showContactAlert(for: product)
+            showInfoAlert(for: product, title: "", messagePrefix: "Номер телефона:", value: product.phoneNumber)
         }
     }
     
-    private func showContactAlert(for product: Product) {
-        let alert = UIAlertController(title: "", message: "Номер телефона: \(product.phoneNumber)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Скопировать", style: .default) { _ in
-            UIPasteboard.general.string = product.phoneNumber
-        })
-        alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
     @objc private func emailButtonTapped() {
         if let product = productTemp {
-            showEmailAlert(for: product)
+            showInfoAlert(for: product, title: "", messagePrefix: "Email:", value: product.email)
         }
     }
-    private func showEmailAlert(for product: Product) {
-        let alert = UIAlertController(title: "", message: "Email: \(product.email)", preferredStyle: .alert)
+    private func showInfoAlert(for product: Product, title: String, messagePrefix: String, value: String) {
+        let alert = UIAlertController(title: title, message: "\(messagePrefix) \(value)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Скопировать", style: .default) { _ in
-            UIPasteboard.general.string = product.email
+            UIPasteboard.general.string = value
         })
         alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
+    
     
 }
 class ButtonSetup {
