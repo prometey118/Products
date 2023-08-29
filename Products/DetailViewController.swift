@@ -106,6 +106,13 @@ class DetailViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
+        descriptionLabel.numberOfLines = 0
+        setUpConstraits()
+        
+        loadImage(from: product.imageURL)
+    }
+    
+    func setUpConstraits() {
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -141,14 +148,12 @@ class DetailViewController: UIViewController {
             emailButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
             emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
-        descriptionLabel.numberOfLines = 0
+        
         NSLayoutConstraint.activate([
             descriptionLabel.topAnchor.constraint(equalTo: contactButton.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
-        
-        loadImage(from: product.imageURL)
     }
     
     func loadImage(from url: String) {
