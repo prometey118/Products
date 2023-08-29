@@ -136,9 +136,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         func setUpConstraits() {
             imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.65).isActive = true
+            NSLayoutConstraint.activate([
+                imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.65)
+            ])
+            
             
             
             nameView.translatesAutoresizingMaskIntoConstraints = false
@@ -149,13 +152,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 nameView.heightAnchor.constraint(equalToConstant: 40)
             ])
             
-            
-            
             priceView.translatesAutoresizingMaskIntoConstraints = false
-            priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
-            priceView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-            priceView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-            priceView.heightAnchor.constraint(equalToConstant:20).isActive = true
+            NSLayoutConstraint.activate([
+                priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor),
+                priceView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                priceView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                priceView.heightAnchor.constraint(equalToConstant:20)
+            ])
+            
             
 
             
