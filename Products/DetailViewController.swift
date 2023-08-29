@@ -52,7 +52,7 @@ class DetailViewController: UIViewController {
         return contentView
     }()
     private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 400)
+        CGSize(width: view.frame.width, height: view.frame.height + 100)
     }
     private let titleLabel = LabelSetup.makeLabel()
     private let priceLabel = LabelSetup.makeLabel()
@@ -104,15 +104,17 @@ class DetailViewController: UIViewController {
         
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 150),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0/1.5)
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 60),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
@@ -139,7 +141,12 @@ class DetailViewController: UIViewController {
             emailButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
             emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
-        
+        descriptionLabel.numberOfLines = 0
+        NSLayoutConstraint.activate([
+            descriptionLabel.topAnchor.constraint(equalTo: contactButton.bottomAnchor, constant: 20),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
         
         loadImage(from: product.imageURL)
     }
