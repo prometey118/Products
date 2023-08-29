@@ -11,6 +11,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let jsonLoader = JSONLoader()
     var collectionView: UICollectionView!
     var advertisements: [Advertisement] = []
+    let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter
+        }()
+        
+        let monthNames: [String] = [
+            "января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+        ]
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -53,11 +63,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         let advertisement = advertisements[indexPath.row]
+        
+        if let date = dateFormatter.date(from: advertisement.createdDate) {
+                    let calendar = Calendar.current
+                    let day = calendar.component(.day, from: date)
+                    let monthIndex = calendar.component(.month, from: date) - 1
+                    let year = calendar.component(.year, from: date)
+                    
+                    let formattedDate = "\(day) \(monthNames[monthIndex]) \(year)"
+                    
+                    cell.createdDateView.text = formattedDate
+                }
         cell.loadImage(from: advertisement.imageURL)
         cell.nameView.text = advertisement.title
         cell.priceView.text = advertisement.price
         cell.locationView.text = advertisement.location
-        cell.createdDateView.text = advertisement.createdDate
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
