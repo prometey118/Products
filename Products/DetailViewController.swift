@@ -10,7 +10,7 @@ import UIKit
 class DetailViewController: UIViewController {
     var itemId: String?
     let jsonLoader = JSONLoader()
-    var productView: Product?
+    var productTemp: Product?
     private let contactButton: UIButton = {
         let button = UIButton()
         button.setTitle("Позвонить", for: .normal)
@@ -68,7 +68,7 @@ class DetailViewController: UIViewController {
                 switch result {
                 case .success(let product):
                     self.setupUI(product: product)
-                    self.productView = product
+                    self.productTemp = product
                     
                 case .failure(let error):
                     print("Ошибка при получении данных: \(error)")
@@ -160,7 +160,7 @@ class DetailViewController: UIViewController {
         }.resume()
     }
     @objc private func contactButtonTapped() {
-        if let product = productView {
+        if let product = productTemp {
             showContactAlert(for: product)
         }
     }
@@ -174,7 +174,7 @@ class DetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     @objc private func emailButtonTapped() {
-        if let product = productView {
+        if let product = productTemp {
             showEmailAlert(for: product)
         }
     }
