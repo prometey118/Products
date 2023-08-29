@@ -113,6 +113,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             addSubview(priceView)
             addSubview(locationView)
             addSubview(createdDateView)
+            setUpViews()
             setUpConstraits()
             
             
@@ -121,14 +122,24 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
+        func setUpViews() {
+            imageView.layer.cornerRadius = 10
+            imageView.layer.masksToBounds = true
+            nameView.font = UIFont.systemFont(ofSize: 16)
+            nameView.numberOfLines = 0
+            priceView.font = UIFont.boldSystemFont(ofSize: 16)
+            locationView.font = UIFont.systemFont(ofSize: 14)
+            locationView.textColor = .gray
+            createdDateView.font = UIFont.systemFont(ofSize: 14)
+            createdDateView.textColor = .gray
+        }
         
         func setUpConstraits() {
             imageView.translatesAutoresizingMaskIntoConstraints = false
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
             imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.65).isActive = true
-            imageView.layer.cornerRadius = 10
-            imageView.layer.masksToBounds = true
+            
             
             nameView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -138,8 +149,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 nameView.heightAnchor.constraint(equalToConstant: 40)
             ])
             
-            nameView.font = UIFont.systemFont(ofSize: 16)
-            nameView.numberOfLines = 0
+            
             
             priceView.translatesAutoresizingMaskIntoConstraints = false
             priceView.topAnchor.constraint(equalTo: nameView.bottomAnchor).isActive = true
@@ -148,7 +158,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             priceView.heightAnchor.constraint(equalToConstant:20).isActive = true
             
 
-            priceView.font = UIFont.boldSystemFont(ofSize: 16)
+            
             
             locationView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -158,8 +168,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 locationView.heightAnchor.constraint(equalToConstant: 20)
             ])
             
-            locationView.font = UIFont.systemFont(ofSize: 14)
-            locationView.textColor = .gray
+            
             
             createdDateView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -168,8 +177,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 createdDateView.trailingAnchor.constraint(equalTo: trailingAnchor),
                 createdDateView.bottomAnchor.constraint(equalTo: bottomAnchor)
             ])
-            createdDateView.font = UIFont.systemFont(ofSize: 14)
-            createdDateView.textColor = .gray
+            
         }
         func loadImage(from url: String) {
             guard let imageUrl = URL(string: url) else {
