@@ -20,8 +20,8 @@ class DetailViewController: UIViewController {
         button.backgroundColor = UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1)
         button.layer.cornerRadius = 5
         let screenWidth = UIScreen.main.bounds.width
-            let buttonWidth: CGFloat = screenWidth * 0.4
-            button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        let buttonWidth: CGFloat = screenWidth * 0.4
+        button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         return button
     }()
     private let emailButton: UIButton = {
@@ -33,8 +33,8 @@ class DetailViewController: UIViewController {
         button.backgroundColor = UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1)
         button.layer.cornerRadius = 5
         let screenWidth = UIScreen.main.bounds.width
-            let buttonWidth: CGFloat = screenWidth * 0.4
-            button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        let buttonWidth: CGFloat = screenWidth * 0.4
+        button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         return button
     }()
     private lazy var scrollView: UIScrollView = {
@@ -59,6 +59,7 @@ class DetailViewController: UIViewController {
     private let locationLabel = LabelSetup.makeLabel()
     private let imageView = UIImageView()
     private let adressLabel = LabelSetup.makeLabel()
+    private let descriptionLabel = LabelSetup.makeLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -90,6 +91,7 @@ class DetailViewController: UIViewController {
         contentView.addSubview(adressLabel)
         contentView.addSubview(contactButton)
         contentView.addSubview(emailButton)
+        contentView.addSubview(descriptionLabel)
         
         
         titleLabel.text = product.title
@@ -97,6 +99,7 @@ class DetailViewController: UIViewController {
         priceLabel.text = product.price
         locationLabel.text = product.location
         adressLabel.text = product.address
+        descriptionLabel.text = product.description
         imageView.contentMode = .scaleAspectFill
         
         
@@ -136,7 +139,7 @@ class DetailViewController: UIViewController {
             emailButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
             emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
-
+        
         
         loadImage(from: product.imageURL)
     }
