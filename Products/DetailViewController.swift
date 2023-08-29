@@ -24,6 +24,16 @@ class DetailViewController: UIViewController {
                                       target: self,
                                       action: #selector(emailButtonTapped))
     }()
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    let monthNames: [String] = [
+        "января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    ]
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -89,7 +99,16 @@ class DetailViewController: UIViewController {
         locationLabel.text = product.location
         adressLabel.text = product.address
         descriptionLabel.text = product.description
-        createdDate.text = product.createdDate
+        if let date = dateFormatter.date(from: product.createdDate) {
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: date)
+            let monthIndex = calendar.component(.month, from: date) - 1
+            let year = calendar.component(.year, from: date)
+            
+            let formattedDate = "\(day) \(monthNames[monthIndex]) \(year)"
+            
+            createdDate.text = formattedDate
+        }
         imageView.contentMode = .scaleAspectFill
         
         
