@@ -19,6 +19,22 @@ class DetailViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1)
         button.layer.cornerRadius = 5
+        let screenWidth = UIScreen.main.bounds.width
+            let buttonWidth: CGFloat = screenWidth * 0.4
+            button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        return button
+    }()
+    private let emailButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Написать", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1)
+        button.layer.cornerRadius = 5
+        let screenWidth = UIScreen.main.bounds.width
+            let buttonWidth: CGFloat = screenWidth * 0.4
+            button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         return button
     }()
     private lazy var scrollView: UIScrollView = {
@@ -73,6 +89,7 @@ class DetailViewController: UIViewController {
         contentView.addSubview(locationLabel)
         contentView.addSubview(adressLabel)
         contentView.addSubview(contactButton)
+        contentView.addSubview(emailButton)
         
         
         titleLabel.text = product.title
@@ -115,8 +132,11 @@ class DetailViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             contactButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
-            contactButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            contactButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            emailButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
+            emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
+
         
         loadImage(from: product.imageURL)
     }
@@ -149,6 +169,19 @@ class DetailViewController: UIViewController {
         let alert = UIAlertController(title: "", message: "Номер телефона: \(product.phoneNumber)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Скопировать", style: .default) { _ in
             UIPasteboard.general.string = product.phoneNumber
+        })
+        alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    @objc private func emailButtonTapped() {
+        if let product = productView {
+            showEmailAlert(for: product)
+        }
+    }
+    private func showEmailAlert(for product: Product) {
+        let alert = UIAlertController(title: "", message: "Email: \(product.email)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Скопировать", style: .default) { _ in
+            UIPasteboard.general.string = product.email
         })
         alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
