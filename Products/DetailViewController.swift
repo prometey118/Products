@@ -12,30 +12,17 @@ class DetailViewController: UIViewController {
     let jsonLoader = JSONLoader()
     var productTemp: Product?
     private let contactButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Позвонить", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(contactButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1)
-        button.layer.cornerRadius = 5
-        let screenWidth = UIScreen.main.bounds.width
-        let buttonWidth: CGFloat = screenWidth * 0.4
-        button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
-        return button
+        return ButtonSetup.makeButton(title: "Позвонить",
+                                       backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1),
+                                       target: self,
+                                       action: #selector(contactButtonTapped))
     }()
+
     private let emailButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Написать", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1)
-        button.layer.cornerRadius = 5
-        let screenWidth = UIScreen.main.bounds.width
-        let buttonWidth: CGFloat = screenWidth * 0.4
-        button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
-        return button
+        return ButtonSetup.makeButton(title: "Написать",
+                                       backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1),
+                                       target: self,
+                                       action: #selector(emailButtonTapped))
     }()
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -203,6 +190,22 @@ class DetailViewController: UIViewController {
     }
     
 }
+class ButtonSetup {
+    static func makeButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(target, action: action, for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = backgroundColor
+        button.layer.cornerRadius = 5
+        let screenWidth = UIScreen.main.bounds.width
+        let buttonWidth: CGFloat = screenWidth * 0.4
+        button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        return button
+    }
+}
+
 class LabelSetup {
     static func makeLabel() -> UILabel {
         let label = UILabel()
