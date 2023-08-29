@@ -50,9 +50,9 @@
 			children = (
 				C41A9B2D2A97DF3A0047691E /* Products */,
 				C4120BCD2A98C3FD00CFFE82 /* ProductsViewModel.swift */,
+				C4120BCB2A98AE9A00CFFE82 /* JsonLoad.swift */,
 				C4DAB6A72A9B556B00386F5C /* ProductViewModel.swift */,
 				C4DAB6AD2A9B826300386F5C /* DetailViewController.swift */,
-				C4120BCB2A98AE9A00CFFE82 /* JsonLoad.swift */,
 				C41A9B2C2A97DF3A0047691E /* Products */,
 			);
 			sourceTree = "<group>";
