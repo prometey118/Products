@@ -11,6 +11,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     let jsonLoader = JSONLoader()
     var collectionView: UICollectionView!
     var advertisements: [Advertisement] = []
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .gray)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+
     let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
@@ -26,6 +32,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         view.backgroundColor = .white
         setCollectionView()
+        view.addSubview(activityIndicator)
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            
+            // Запустите анимацию индикатора загрузки
+            activityIndicator.startAnimating()
         DispatchQueue.global(qos: .utility).async {
             self.jsonLoader.fetchProducts() { result in
                 switch result {
@@ -34,6 +46,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 case .failure(let error):
                     print("Error fetching advertisements: \(error)")
                 }
+                DispatchQueue.main.async {
+                                self.activityIndicator.stopAnimating()
+                            }
             }
         }
         
