@@ -47,6 +47,7 @@ class DetailViewController: UIViewController {
     private let imageView = UIImageView()
     private let adressLabel = LabelSetup.makeLabel()
     private let descriptionLabel = LabelSetup.makeLabel()
+    private let createdDate = LabelSetup.makeLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -79,6 +80,7 @@ class DetailViewController: UIViewController {
         contentView.addSubview(contactButton)
         contentView.addSubview(emailButton)
         contentView.addSubview(descriptionLabel)
+        contentView.addSubview(createdDate)
         
         
         titleLabel.text = product.title
@@ -87,6 +89,7 @@ class DetailViewController: UIViewController {
         locationLabel.text = product.location
         adressLabel.text = product.address
         descriptionLabel.text = product.description
+        createdDate.text = product.createdDate
         imageView.contentMode = .scaleAspectFill
         
         
@@ -141,6 +144,12 @@ class DetailViewController: UIViewController {
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
+        NSLayoutConstraint.activate([
+            createdDate.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
+            createdDate.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            createdDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
+        
     }
     
     func loadImage(from url: String) {
