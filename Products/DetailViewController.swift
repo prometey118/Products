@@ -21,6 +21,23 @@ class DetailViewController: UIViewController {
         button.layer.cornerRadius = 5
         return button
     }()
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .white
+        scrollView.frame = self.view.bounds
+        scrollView.contentSize = contentSize
+        return scrollView
+    }()
+    
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.backgroundColor = .white
+        contentView.frame.size = contentSize
+        return contentView
+    }()
+    private var contentSize: CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height + 400)
+    }
     private let titleLabel = LabelSetup.makeLabel()
     private let priceLabel = LabelSetup.makeLabel()
     private let locationLabel = LabelSetup.makeLabel()
@@ -46,12 +63,16 @@ class DetailViewController: UIViewController {
     }
     
     private func setupUI(product: Product) {
-        view.addSubview(imageView)
-        view.addSubview(titleLabel)
-        view.addSubview(priceLabel)
-        view.addSubview(locationLabel)
-        view.addSubview(adressLabel)
-        view.addSubview(contactButton)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(imageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(locationLabel)
+        contentView.addSubview(adressLabel)
+        contentView.addSubview(contactButton)
         
         
         titleLabel.text = product.title
@@ -64,37 +85,37 @@ class DetailViewController: UIViewController {
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
-            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 150),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.0/1.5)
         ])
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 60),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            priceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             locationLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
-            locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            locationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            locationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
             adressLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
-            adressLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            adressLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            adressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            adressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
             contactButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
-            contactButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            contactButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
         
         loadImage(from: product.imageURL)
