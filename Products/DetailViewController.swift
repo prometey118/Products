@@ -24,6 +24,11 @@ class DetailViewController: UIViewController {
                                       target: self,
                                       action: #selector(emailButtonTapped))
     }()
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .gray)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -61,7 +66,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+        view.addSubview(activityIndicator)
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         if let itemId = itemId {
             jsonLoader.fetchDetailData(itemId: itemId) { result in
                 switch result {
@@ -72,6 +79,9 @@ class DetailViewController: UIViewController {
                 case .failure(let error):
                     print("Ошибка при получении данных: \(error)")
                 }
+                DispatchQueue.main.async {
+                                self.activityIndicator.stopAnimating()
+                            }
             }
         }
         

@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import SystemConfiguration
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     let jsonLoader = JSONLoader()
+    
     var collectionView: UICollectionView!
     var advertisements: [Advertisement] = []
     let activityIndicator: UIActivityIndicatorView = {
@@ -31,6 +33,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         super.viewDidLoad()
         view.backgroundColor = .white
+        if !isInternetAvailable() {
+                showNoInternetAlert()
+                return
+            }
         setCollectionView()
         view.addSubview(activityIndicator)
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -55,6 +61,35 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     
+    func isInternetAvailable() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }) else {
+            return false
+        }
+        
+        var flags: SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        
+        return isReachable && !needsConnection
+    }
+    func showNoInternetAlert() {
+        let alert = UIAlertController(title: "Нет подключения к интернету", message: "Пожалуйста, проверьте ваше подключение к интернету и попробуйте снова.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
     
     func setCollectionView() {
         let layout = UICollectionViewFlowLayout()
