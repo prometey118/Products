@@ -10,6 +10,7 @@ import UIKit
 class DetailViewController: UIViewController {
     var detailView = DetailView()
     let jsonLoader = JSONLoader()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
