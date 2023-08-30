@@ -10,14 +10,15 @@ import SystemConfiguration
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     let jsonLoader = JSONLoader()
+    var productsView = ProductsView()
     var products: Products?
-    var collectionView: UICollectionView!
-    var advertisements: [Advertisement] = []
-    let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .gray)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }()
+//    var collectionView: UICollectionView!
+//    var advertisements: [Advertisement] = []
+//    let activityIndicator: UIActivityIndicatorView = {
+//        let indicator = UIActivityIndicatorView(style: .gray)
+//        indicator.translatesAutoresizingMaskIntoConstraints = false
+//        return indicator
+//    }()
 
     let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -44,11 +45,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
             definesPresentationContext = true
         setCollectionView()
-        view.addSubview(activityIndicator)
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        view.addSubview(productsView.activityIndicator)
+        productsView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        productsView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
             
-            activityIndicator.startAnimating()
+        productsView.activityIndicator.startAnimating()
         DispatchQueue.global(qos: .utility).async {
             self.jsonLoader.fetchProducts() { result in
                 switch result {
@@ -58,7 +59,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     print("Error fetching advertisements: \(error)")
                 }
                 DispatchQueue.main.async {
-                                self.activityIndicator.stopAnimating()
+                    self.productsView.activityIndicator.stopAnimating()
                             }
             }
         }
@@ -98,26 +99,26 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func setCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.addSubview(collectionView)
+        productsView.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.addSubview(productsView.collectionView)
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        productsView.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        productsView.collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        productsView.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        productsView.collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        productsView.collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
+        productsView.collectionView.dataSource = self
+        productsView.collectionView.delegate = self
+        productsView.collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return advertisements.count
+        return productsView.advertisements.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-        let advertisement = advertisements[indexPath.row]
+        let advertisement = productsView.advertisements[indexPath.row]
         
         if let date = dateFormatter.date(from: advertisement.createdDate) {
                     let calendar = Calendar.current
@@ -140,7 +141,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedAdvertisement = advertisements[indexPath.row]
+        let selectedAdvertisement = productsView.advertisements[indexPath.row]
         let detailViewController = DetailViewController()
         detailViewController.itemId = selectedAdvertisement.id
         navigationController?.pushViewController(detailViewController, animated: true)
@@ -148,9 +149,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func didLoadProducts(_ products: Products) {
         self.products = products
-        advertisements = products.advertisements
+        productsView.advertisements = products.advertisements
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.productsView.collectionView.reloadData()
         }
     }
     
@@ -264,17 +265,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 extension ViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
-            let filteredAdvertisements = advertisements.filter { advertisement in
+            let filteredAdvertisements = productsView.advertisements.filter { advertisement in
                 return advertisement.title.localizedCaseInsensitiveContains(searchText)
             }
             DispatchQueue.main.async {
-                self.advertisements = filteredAdvertisements
-                self.collectionView.reloadData()
+                self.productsView.advertisements = filteredAdvertisements
+                self.productsView.collectionView.reloadData()
             }
         } else {
             DispatchQueue.main.async {
-                self.advertisements = self.products!.advertisements
-                self.collectionView.reloadData()
+                self.productsView.advertisements = self.products!.advertisements
+                self.productsView.collectionView.reloadData()
             }
         }
     }
