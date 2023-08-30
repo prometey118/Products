@@ -10,7 +10,7 @@ import SystemConfiguration
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     let jsonLoader = JSONLoader()
-    
+    var products: Products?
     var collectionView: UICollectionView!
     var advertisements: [Advertisement] = []
     let activityIndicator: UIActivityIndicatorView = {
@@ -37,12 +37,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 showNoInternetAlert()
                 return
             }
+        let searchController = UISearchController(searchResultsController: nil)
+            searchController.searchResultsUpdater = self
+            searchController.obscuresBackgroundDuringPresentation = false
+            navigationItem.searchController = searchController
+        searchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
+            definesPresentationContext = true
         setCollectionView()
         view.addSubview(activityIndicator)
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
             
-            // Запустите анимацию индикатора загрузки
             activityIndicator.startAnimating()
         DispatchQueue.global(qos: .utility).async {
             self.jsonLoader.fetchProducts() { result in
@@ -97,7 +102,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
@@ -142,6 +147,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func didLoadProducts(_ products: Products) {
+        self.products = products
         advertisements = products.advertisements
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -255,3 +261,25 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
 }
 
+extension ViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        // Получите текст из поисковой строки
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            // Выполните поиск на основе текста и обновите отображение
+            let filteredAdvertisements = advertisements.filter { advertisement in
+                return advertisement.title.localizedCaseInsensitiveContains(searchText)
+            }
+            // Обновите отображение результатов поиска
+            DispatchQueue.main.async {
+                self.advertisements = filteredAdvertisements
+                self.collectionView.reloadData()
+            }
+        } else {
+            // Если поисковая строка пуста, покажите все объявления
+            DispatchQueue.main.async {
+                self.advertisements = self.products!.advertisements
+                self.collectionView.reloadData()
+            }
+        }
+    }
+}
