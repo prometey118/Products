@@ -6,26 +6,31 @@
 //
 
 import UIKit
+import SystemConfiguration
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     let jsonLoader = JSONLoader()
-    var collectionView: UICollectionView!
-    var advertisements: [Advertisement] = []
-    let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            return formatter
-        }()
-        
-        let monthNames: [String] = [
-            "января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря"
-        ]
+    var productsView = ProductsView()
     override func viewDidLoad() {
         
         super.viewDidLoad()
         view.backgroundColor = .white
+        if !isInternetAvailable() {
+            showNoInternetAlert()
+            return
+        }
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+        searchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
+        definesPresentationContext = true
         setCollectionView()
+        view.addSubview(productsView.activityIndicator)
+        productsView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        productsView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        productsView.activityIndicator.startAnimating()
         DispatchQueue.global(qos: .utility).async {
             self.jsonLoader.fetchProducts() { result in
                 switch result {
@@ -34,67 +39,67 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 case .failure(let error):
                     print("Error fetching advertisements: \(error)")
                 }
+                DispatchQueue.main.async {
+                    self.productsView.activityIndicator.stopAnimating()
+                }
             }
         }
         
         
     }
     
+    func isInternetAvailable() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }) else {
+            return false
+        }
+        
+        var flags: SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        
+        return isReachable && !needsConnection
+    }
+    func showNoInternetAlert() {
+        let alert = UIAlertController(title: "Нет подключения к интернету", message: "Пожалуйста, проверьте ваше подключение к интернету и попробуйте снова.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+    }
     
     func setCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.addSubview(collectionView)
+        productsView.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.addSubview(productsView.collectionView)
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        productsView.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        productsView.collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        productsView.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        productsView.collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        productsView.collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return advertisements.count
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-        let advertisement = advertisements[indexPath.row]
-        
-        if let date = dateFormatter.date(from: advertisement.createdDate) {
-                    let calendar = Calendar.current
-                    let day = calendar.component(.day, from: date)
-                    let monthIndex = calendar.component(.month, from: date) - 1
-                    let year = calendar.component(.year, from: date)
-                    
-                    let formattedDate = "\(day) \(monthNames[monthIndex]) \(year)"
-                    
-                    cell.createdDateView.text = formattedDate
-                }
-        cell.loadImage(from: advertisement.imageURL)
-        cell.nameView.text = advertisement.title
-        cell.priceView.text = advertisement.price
-        cell.locationView.text = advertisement.location
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width/2 - 20, height: 250)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedAdvertisement = advertisements[indexPath.row]
-        let detailViewController = DetailViewController()
-        detailViewController.itemId = selectedAdvertisement.id
-        navigationController?.pushViewController(detailViewController, animated: true)
+        productsView.collectionView.dataSource = self
+        productsView.collectionView.delegate = self
+        productsView.collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
     }
     
     func didLoadProducts(_ products: Products) {
-        advertisements = products.advertisements
+        self.productsView.products = products
+        productsView.advertisements = products.advertisements
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            self.productsView.collectionView.reloadData()
         }
     }
     
@@ -161,7 +166,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             ])
             
             
-
+            
             
             
             locationView.translatesAutoresizingMaskIntoConstraints = false
@@ -205,3 +210,58 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
 }
 
+extension ViewController {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return productsView.advertisements.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
+        let advertisement = productsView.advertisements[indexPath.row]
+        
+        if let date = productsView.dateFormatter.date(from: advertisement.createdDate) {
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: date)
+            let monthIndex = calendar.component(.month, from: date) - 1
+            let year = calendar.component(.year, from: date)
+            
+            let formattedDate = "\(day) \(productsView.monthNames[monthIndex]) \(year)"
+            
+            cell.createdDateView.text = formattedDate
+        }
+        cell.loadImage(from: advertisement.imageURL)
+        cell.nameView.text = advertisement.title
+        cell.priceView.text = advertisement.price
+        cell.locationView.text = advertisement.location
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width/2 - 20, height: 250)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedAdvertisement = productsView.advertisements[indexPath.row]
+        let detailViewController = DetailViewController()
+        detailViewController.detailView.itemId = selectedAdvertisement.id
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+}
+
+extension ViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            let filteredAdvertisements = productsView.advertisements.filter { advertisement in
+                return advertisement.title.localizedCaseInsensitiveContains(searchText)
+            }
+            DispatchQueue.main.async {
+                self.productsView.advertisements = filteredAdvertisements
+                self.productsView.collectionView.reloadData()
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.productsView.advertisements = self.productsView.products!.advertisements
+                self.productsView.collectionView.reloadData()
+            }
+        }
+    }
+}
