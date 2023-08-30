@@ -11,25 +11,6 @@ import SystemConfiguration
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     let jsonLoader = JSONLoader()
     var productsView = ProductsView()
-    var products: Products?
-//    var collectionView: UICollectionView!
-//    var advertisements: [Advertisement] = []
-//    let activityIndicator: UIActivityIndicatorView = {
-//        let indicator = UIActivityIndicatorView(style: .gray)
-//        indicator.translatesAutoresizingMaskIntoConstraints = false
-//        return indicator
-//    }()
-
-//    let dateFormatter: DateFormatter = {
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "yyyy-MM-dd"
-//            return formatter
-//        }()
-        
-//        let monthNames: [String] = [
-//            "января", "февраля", "марта", "апреля", "мая", "июня",
-//            "июля", "августа", "сентября", "октября", "ноября", "декабря"
-//        ]
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -148,7 +129,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func didLoadProducts(_ products: Products) {
-        self.products = products
+        self.productsView.products = products
         productsView.advertisements = products.advertisements
         DispatchQueue.main.async {
             self.productsView.collectionView.reloadData()
@@ -274,7 +255,7 @@ extension ViewController: UISearchResultsUpdating {
             }
         } else {
             DispatchQueue.main.async {
-                self.productsView.advertisements = self.products!.advertisements
+                self.productsView.advertisements = self.productsView.products!.advertisements
                 self.productsView.collectionView.reloadData()
             }
         }
