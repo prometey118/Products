@@ -263,19 +263,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
 extension ViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        // Получите текст из поисковой строки
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
-            // Выполните поиск на основе текста и обновите отображение
             let filteredAdvertisements = advertisements.filter { advertisement in
                 return advertisement.title.localizedCaseInsensitiveContains(searchText)
             }
-            // Обновите отображение результатов поиска
             DispatchQueue.main.async {
                 self.advertisements = filteredAdvertisements
                 self.collectionView.reloadData()
             }
         } else {
-            // Если поисковая строка пуста, покажите все объявления
             DispatchQueue.main.async {
                 self.advertisements = self.products!.advertisements
                 self.collectionView.reloadData()
