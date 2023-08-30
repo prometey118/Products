@@ -58,8 +58,14 @@ class DetailViewController: UIViewController {
         detailView.titleLabel.text = product.title
         detailView.titleLabel.font = UIFont.systemFont(ofSize: 20)
         detailView.priceLabel.text = product.price
-        detailView.locationLabel.text = product.location
-        detailView.adressLabel.text = product.address
+        detailView.priceLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        detailView.locationLabel.text = ""
+        detailView.locationLabel.font = UIFont.systemFont(ofSize: 17)
+        detailView.locationLabel.textColor = .gray
+        detailView.adressLabel.text = "\(product.location), \(product.address)"
+        detailView.adressLabel.font = UIFont.systemFont(ofSize: 17)
+//        detailView.adressLabel.textColor = UIColor(red: 17/255, green: 18/255, blue: 33/255, alpha: 1)
+        detailView.adressLabel.textColor = .gray
         detailView.descriptionLabel.text = product.description
         
         if let date = detailView.dateFormatter.date(from: product.createdDate) {
@@ -72,6 +78,7 @@ class DetailViewController: UIViewController {
             
             detailView.createdDate.text = formattedDate
         }
+        
         detailView.imageView.contentMode = .scaleAspectFill
         
         
@@ -93,24 +100,24 @@ class DetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            detailView.titleLabel.topAnchor.constraint(equalTo: detailView.imageView.bottomAnchor, constant: 20),
+            detailView.titleLabel.topAnchor.constraint(equalTo: detailView.imageView.bottomAnchor, constant: 10),
             detailView.titleLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.titleLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            detailView.priceLabel.topAnchor.constraint(equalTo: detailView.titleLabel.bottomAnchor, constant: 20),
+            detailView.priceLabel.topAnchor.constraint(equalTo: detailView.titleLabel.bottomAnchor, constant: 10),
             detailView.priceLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.priceLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            detailView.locationLabel.topAnchor.constraint(equalTo: detailView.priceLabel.bottomAnchor, constant: 20),
+            detailView.locationLabel.topAnchor.constraint(equalTo: detailView.priceLabel.bottomAnchor, constant: 15),
             detailView.locationLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.locationLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-            detailView.adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 20),
+            detailView.adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 5),
             detailView.adressLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.adressLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
