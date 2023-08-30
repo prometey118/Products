@@ -5,7 +5,10 @@
 <img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/ec47dae6-6105-4ce5-a9c7-1a17502fc917">
 - Детальная карточка товара(открывается при нажатии на один из товаров). При нажатии кнопки позвонить, открывается окно, в котором возможно сохранить номер телефона. Аналогично при нажатии кнопки написать, возможно сохранить адрес почты.
 <img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/94dcbc61-2612-4f09-8b98-eae600c40769">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/a0859056-2f96-4cd4-a91f-3598cbce1066">
+
 ### Приложение имеет три состояния:
 - Отображение ошибки
+- <img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/e3d588e5-cd2c-46fe-b864-c02d4db90455">
 - Состояние загрузки
 - Отображение контента из JSON файла
