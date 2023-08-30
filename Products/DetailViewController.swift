@@ -9,37 +9,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var detailView = DetailView()
-//    var itemId: String?
     let jsonLoader = JSONLoader()
-//    var productTemp: Product?
-//    private let contactButton: UIButton = {
-//        return ButtonSetup.makeButton(title: "Позвонить",
-//                                      backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1),
-//                                      target: self,
-//                                      action: #selector(contactButtonTapped))
-//    }()
-    
-    private let emailButton: UIButton = {
-        return ButtonSetup.makeButton(title: "Написать",
-                                      backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1),
-                                      target: self,
-                                      action: #selector(emailButtonTapped))
-    }()
-//    let activityIndicator: UIActivityIndicatorView = {
-//        let indicator = UIActivityIndicatorView(style: .gray)
-//        indicator.translatesAutoresizingMaskIntoConstraints = false
-//        return indicator
-//    }()
-//    let dateFormatter: DateFormatter = {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd"
-//        return formatter
-//    }()
-    
-//    let monthNames: [String] = [
-//        "января", "февраля", "марта", "апреля", "мая", "июня",
-//        "июля", "августа", "сентября", "октября", "ноября", "декабря"
-//    ]
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -57,13 +28,6 @@ class DetailViewController: UIViewController {
     private var contentSize: CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 100)
     }
-//    private let titleLabel = LabelSetup.makeLabel()
-//    private let priceLabel = LabelSetup.makeLabel()
-//    private let locationLabel = LabelSetup.makeLabel()
-//    private let imageView = UIImageView()
-//    private let adressLabel = LabelSetup.makeLabel()
-//    private let descriptionLabel = LabelSetup.makeLabel()
-//    private let createdDate = LabelSetup.makeLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -98,9 +62,10 @@ class DetailViewController: UIViewController {
         contentView.addSubview(detailView.priceLabel)
         contentView.addSubview(detailView.locationLabel)
         contentView.addSubview(detailView.adressLabel)
-        detailView.contactButton = detailView.makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
+        detailView.contactButton = makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
         contentView.addSubview(detailView.contactButton!)
-        contentView.addSubview(emailButton)
+        detailView.emailButton = makeButton(title: "Написать", backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1), target: self, action: #selector(emailButtonTapped))
+        contentView.addSubview(detailView.emailButton!)
         contentView.addSubview(detailView.descriptionLabel)
         contentView.addSubview(detailView.createdDate)
         
@@ -167,8 +132,8 @@ class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             detailView.contactButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
             detailView.contactButton!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            emailButton.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
-            emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.emailButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
+            detailView.emailButton!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
@@ -222,10 +187,7 @@ class DetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    
-}
-class ButtonSetup {
-    static func makeButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector) -> UIButton {
+     func makeButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -240,11 +202,3 @@ class ButtonSetup {
     }
 }
 
-class LabelSetup {
-    static func makeLabel() -> UILabel {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        return label
-    }
-}
