@@ -102,7 +102,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         view.addSubview(collectionView)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
