@@ -22,24 +22,20 @@ class DetailView {
             formatter.dateFormat = "yyyy-MM-dd"
             return formatter
         }()
-    private lazy var scrollView: UIScrollView = {
+     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
-//        scrollView.frame = self.view.bounds
         scrollView.contentSize = contentSize
         return scrollView
     }()
      
-    private lazy var contentView: UIView = {
+     lazy var contentView: UIView = {
         let contentView = UIView()
         contentView.backgroundColor = .white
         contentView.frame.size = contentSize
         return contentView
     }()
-    private var contentSize: CGSize = .zero
-//    {
-//        CGSize(width: view.frame.width, height: view.frame.height + 100)
-//    }
+    var contentSize: CGSize = .zero
 
     let monthNames: [String] = [
         "января", "февраля", "марта", "апреля", "мая", "июня",

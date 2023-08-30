@@ -11,20 +11,20 @@ class DetailViewController: UIViewController {
     var detailView = DetailView()
     let jsonLoader = JSONLoader()
 
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
-        scrollView.frame = self.view.bounds
-        scrollView.contentSize = contentSize
-        return scrollView
-    }()
+//    private lazy var scrollView: UIScrollView = {
+//        let scrollView = UIScrollView()
+//        scrollView.backgroundColor = .white
+//        scrollView.frame = self.view.bounds
+//        scrollView.contentSize = contentSize
+//        return scrollView
+//    }()
     
-    private lazy var contentView: UIView = {
-        let contentView = UIView()
-        contentView.backgroundColor = .white
-        contentView.frame.size = contentSize
-        return contentView
-    }()
+//    private lazy var contentView: UIView = {
+//        let contentView = UIView()
+//        contentView.backgroundColor = .white
+//        contentView.frame.size = contentSize
+//        return contentView
+//    }()
     private var contentSize: CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 100)
     }
@@ -53,21 +53,23 @@ class DetailViewController: UIViewController {
     }
     
     private func setupUI(product: Product) {
-        view.addSubview(scrollView)
+        detailView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 100)
+        detailView.scrollView.frame = self.view.bounds
+        view.addSubview(detailView.scrollView)
         
-        scrollView.addSubview(contentView)
+        detailView.scrollView.addSubview(detailView.contentView)
         
-        contentView.addSubview(detailView.imageView)
-        contentView.addSubview(detailView.titleLabel)
-        contentView.addSubview(detailView.priceLabel)
-        contentView.addSubview(detailView.locationLabel)
-        contentView.addSubview(detailView.adressLabel)
+            detailView.contentView.addSubview(detailView.imageView)
+        detailView.contentView.addSubview(detailView.titleLabel)
+        detailView.contentView.addSubview(detailView.priceLabel)
+        detailView.contentView.addSubview(detailView.locationLabel)
+        detailView.contentView.addSubview(detailView.adressLabel)
         detailView.contactButton = makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
-        contentView.addSubview(detailView.contactButton!)
+        detailView.contentView.addSubview(detailView.contactButton!)
         detailView.emailButton = makeButton(title: "Написать", backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1), target: self, action: #selector(emailButtonTapped))
-        contentView.addSubview(detailView.emailButton!)
-        contentView.addSubview(detailView.descriptionLabel)
-        contentView.addSubview(detailView.createdDate)
+        detailView.contentView.addSubview(detailView.emailButton!)
+        detailView.contentView.addSubview(detailView.descriptionLabel)
+        detailView.contentView.addSubview(detailView.createdDate)
         
         
         detailView.titleLabel.text = product.title
@@ -101,50 +103,50 @@ class DetailViewController: UIViewController {
     
     func setUpConstraits() {
         NSLayoutConstraint.activate([
-            detailView.imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            detailView.imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            detailView.imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            detailView.imageView.topAnchor.constraint(equalTo: detailView.contentView.topAnchor),
+            detailView.imageView.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 10),
+            detailView.imageView.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -10),
             detailView.imageView.heightAnchor.constraint(equalTo: detailView.imageView.widthAnchor)
         ])
         
         NSLayoutConstraint.activate([
             detailView.titleLabel.topAnchor.constraint(equalTo: detailView.imageView.bottomAnchor, constant: 20),
-            detailView.titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.titleLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.titleLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             detailView.priceLabel.topAnchor.constraint(equalTo: detailView.titleLabel.bottomAnchor, constant: 20),
-            detailView.priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.priceLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.priceLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             detailView.locationLabel.topAnchor.constraint(equalTo: detailView.priceLabel.bottomAnchor, constant: 20),
-            detailView.locationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.locationLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.locationLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
             detailView.adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 20),
-            detailView.adressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.adressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.adressLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.adressLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
             detailView.contactButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
-            detailView.contactButton!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.contactButton!.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.emailButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
-            detailView.emailButton!.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.emailButton!.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             detailView.descriptionLabel.topAnchor.constraint(equalTo: detailView.contactButton!.bottomAnchor, constant: 20),
-            detailView.descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.descriptionLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.descriptionLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
             detailView.createdDate.topAnchor.constraint(equalTo: detailView.descriptionLabel.bottomAnchor, constant: 20),
-            detailView.createdDate.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.createdDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.createdDate.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.createdDate.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         
     }
