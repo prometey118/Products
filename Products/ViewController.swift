@@ -16,20 +16,20 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         view.backgroundColor = .white
         if !isInternetAvailable() {
-                showNoInternetAlert()
-                return
-            }
+            showNoInternetAlert()
+            return
+        }
         let searchController = UISearchController(searchResultsController: nil)
-            searchController.searchResultsUpdater = self
-            searchController.obscuresBackgroundDuringPresentation = false
-            navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
-            definesPresentationContext = true
+        definesPresentationContext = true
         setCollectionView()
         view.addSubview(productsView.activityIndicator)
         productsView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         productsView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            
+        
         productsView.activityIndicator.startAnimating()
         DispatchQueue.global(qos: .utility).async {
             self.jsonLoader.fetchProducts() { result in
@@ -41,7 +41,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
                 DispatchQueue.main.async {
                     self.productsView.activityIndicator.stopAnimating()
-                            }
+                }
             }
         }
         
@@ -102,15 +102,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let advertisement = productsView.advertisements[indexPath.row]
         
         if let date = productsView.dateFormatter.date(from: advertisement.createdDate) {
-                    let calendar = Calendar.current
-                    let day = calendar.component(.day, from: date)
-                    let monthIndex = calendar.component(.month, from: date) - 1
-                    let year = calendar.component(.year, from: date)
-                    
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: date)
+            let monthIndex = calendar.component(.month, from: date) - 1
+            let year = calendar.component(.year, from: date)
+            
             let formattedDate = "\(day) \(productsView.monthNames[monthIndex]) \(year)"
-                    
-                    cell.createdDateView.text = formattedDate
-                }
+            
+            cell.createdDateView.text = formattedDate
+        }
         cell.loadImage(from: advertisement.imageURL)
         cell.nameView.text = advertisement.title
         cell.priceView.text = advertisement.price
@@ -199,7 +199,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             ])
             
             
-
+            
             
             
             locationView.translatesAutoresizingMaskIntoConstraints = false
