@@ -94,39 +94,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         productsView.collectionView.delegate = self
         productsView.collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
     }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productsView.advertisements.count
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-        let advertisement = productsView.advertisements[indexPath.row]
-        
-        if let date = productsView.dateFormatter.date(from: advertisement.createdDate) {
-            let calendar = Calendar.current
-            let day = calendar.component(.day, from: date)
-            let monthIndex = calendar.component(.month, from: date) - 1
-            let year = calendar.component(.year, from: date)
-            
-            let formattedDate = "\(day) \(productsView.monthNames[monthIndex]) \(year)"
-            
-            cell.createdDateView.text = formattedDate
-        }
-        cell.loadImage(from: advertisement.imageURL)
-        cell.nameView.text = advertisement.title
-        cell.priceView.text = advertisement.price
-        cell.locationView.text = advertisement.location
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width/2 - 20, height: 250)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedAdvertisement = productsView.advertisements[indexPath.row]
-        let detailViewController = DetailViewController()
-        detailViewController.detailView.itemId = selectedAdvertisement.id
-        navigationController?.pushViewController(detailViewController, animated: true)
-    }
     
     func didLoadProducts(_ products: Products) {
         self.productsView.products = products
@@ -239,6 +206,43 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }.resume()
         }
+    }
+    
+}
+
+extension ViewController {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return productsView.advertisements.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
+        let advertisement = productsView.advertisements[indexPath.row]
+        
+        if let date = productsView.dateFormatter.date(from: advertisement.createdDate) {
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: date)
+            let monthIndex = calendar.component(.month, from: date) - 1
+            let year = calendar.component(.year, from: date)
+            
+            let formattedDate = "\(day) \(productsView.monthNames[monthIndex]) \(year)"
+            
+            cell.createdDateView.text = formattedDate
+        }
+        cell.loadImage(from: advertisement.imageURL)
+        cell.nameView.text = advertisement.title
+        cell.priceView.text = advertisement.price
+        cell.locationView.text = advertisement.location
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width/2 - 20, height: 250)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedAdvertisement = productsView.advertisements[indexPath.row]
+        let detailViewController = DetailViewController()
+        detailViewController.detailView.itemId = selectedAdvertisement.id
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 }

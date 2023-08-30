@@ -10,24 +10,6 @@ import UIKit
 class DetailViewController: UIViewController {
     var detailView = DetailView()
     let jsonLoader = JSONLoader()
-
-//    private lazy var scrollView: UIScrollView = {
-//        let scrollView = UIScrollView()
-//        scrollView.backgroundColor = .white
-//        scrollView.frame = self.view.bounds
-//        scrollView.contentSize = contentSize
-//        return scrollView
-//    }()
-    
-//    private lazy var contentView: UIView = {
-//        let contentView = UIView()
-//        contentView.backgroundColor = .white
-//        contentView.frame.size = contentSize
-//        return contentView
-//    }()
-    private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 100)
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
