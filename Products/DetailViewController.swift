@@ -60,10 +60,10 @@ class DetailViewController: UIViewController {
 //    private let titleLabel = LabelSetup.makeLabel()
 //    private let priceLabel = LabelSetup.makeLabel()
 //    private let locationLabel = LabelSetup.makeLabel()
-    private let imageView = UIImageView()
-    private let adressLabel = LabelSetup.makeLabel()
-    private let descriptionLabel = LabelSetup.makeLabel()
-    private let createdDate = LabelSetup.makeLabel()
+//    private let imageView = UIImageView()
+//    private let adressLabel = LabelSetup.makeLabel()
+//    private let descriptionLabel = LabelSetup.makeLabel()
+//    private let createdDate = LabelSetup.makeLabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -93,24 +93,24 @@ class DetailViewController: UIViewController {
         
         scrollView.addSubview(contentView)
         
-        contentView.addSubview(imageView)
+        contentView.addSubview(detailView.imageView)
         contentView.addSubview(detailView.titleLabel)
         contentView.addSubview(detailView.priceLabel)
         contentView.addSubview(detailView.locationLabel)
-        contentView.addSubview(adressLabel)
+        contentView.addSubview(detailView.adressLabel)
         detailView.contactButton = detailView.makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
         contentView.addSubview(detailView.contactButton!)
         contentView.addSubview(emailButton)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(createdDate)
+        contentView.addSubview(detailView.descriptionLabel)
+        contentView.addSubview(detailView.createdDate)
         
         
         detailView.titleLabel.text = product.title
         detailView.titleLabel.font = UIFont.systemFont(ofSize: 20)
         detailView.priceLabel.text = product.price
         detailView.locationLabel.text = product.location
-        adressLabel.text = product.address
-        descriptionLabel.text = product.description
+        detailView.adressLabel.text = product.address
+        detailView.descriptionLabel.text = product.description
         
         if let date = detailView.dateFormatter.date(from: product.createdDate) {
             let calendar = Calendar.current
@@ -120,15 +120,15 @@ class DetailViewController: UIViewController {
             
             let formattedDate = "\(day) \(detailView.monthNames[monthIndex]) \(year)"
             
-            createdDate.text = formattedDate
+            detailView.createdDate.text = formattedDate
         }
-        imageView.contentMode = .scaleAspectFill
+        detailView.imageView.contentMode = .scaleAspectFill
         
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 10
-        imageView.layer.masksToBounds = true
-        descriptionLabel.numberOfLines = 0
+        detailView.imageView.translatesAutoresizingMaskIntoConstraints = false
+        detailView.imageView.layer.cornerRadius = 10
+        detailView.imageView.layer.masksToBounds = true
+        detailView.descriptionLabel.numberOfLines = 0
         setUpConstraits()
         
         loadImage(from: product.imageURL)
@@ -136,14 +136,14 @@ class DetailViewController: UIViewController {
     
     func setUpConstraits() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+            detailView.imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            detailView.imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            detailView.imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            detailView.imageView.heightAnchor.constraint(equalTo: detailView.imageView.widthAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            detailView.titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            detailView.titleLabel.topAnchor.constraint(equalTo: detailView.imageView.bottomAnchor, constant: 20),
             detailView.titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             detailView.titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
@@ -160,26 +160,26 @@ class DetailViewController: UIViewController {
             detailView.locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-            adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 20),
-            adressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            adressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 20),
+            detailView.adressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.adressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-            detailView.contactButton!.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
+            detailView.contactButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
             detailView.contactButton!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            emailButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
+            emailButton.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
             emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: detailView.contactButton!.bottomAnchor, constant: 20),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.descriptionLabel.topAnchor.constraint(equalTo: detailView.contactButton!.bottomAnchor, constant: 20),
+            detailView.descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-            createdDate.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
-            createdDate.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            createdDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.createdDate.topAnchor.constraint(equalTo: detailView.descriptionLabel.bottomAnchor, constant: 20),
+            detailView.createdDate.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.createdDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
     }
@@ -197,7 +197,7 @@ class DetailViewController: UIViewController {
             
             if let imageData = data, let image = UIImage(data: imageData) {
                 DispatchQueue.main.async {
-                    self.imageView.image = image
+                    self.detailView.imageView.image = image
                 }
             }
         }.resume()
