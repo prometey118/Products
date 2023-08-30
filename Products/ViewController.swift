@@ -20,16 +20,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 //        return indicator
 //    }()
 
-    let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            return formatter
-        }()
+//    let dateFormatter: DateFormatter = {
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "yyyy-MM-dd"
+//            return formatter
+//        }()
         
-        let monthNames: [String] = [
-            "января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря"
-        ]
+//        let monthNames: [String] = [
+//            "января", "февраля", "марта", "апреля", "мая", "июня",
+//            "июля", "августа", "сентября", "октября", "ноября", "декабря"
+//        ]
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -120,13 +120,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         let advertisement = productsView.advertisements[indexPath.row]
         
-        if let date = dateFormatter.date(from: advertisement.createdDate) {
+        if let date = productsView.dateFormatter.date(from: advertisement.createdDate) {
                     let calendar = Calendar.current
                     let day = calendar.component(.day, from: date)
                     let monthIndex = calendar.component(.month, from: date) - 1
                     let year = calendar.component(.year, from: date)
                     
-                    let formattedDate = "\(day) \(monthNames[monthIndex]) \(year)"
+            let formattedDate = "\(day) \(productsView.monthNames[monthIndex]) \(year)"
                     
                     cell.createdDateView.text = formattedDate
                 }
