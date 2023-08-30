@@ -8,15 +8,16 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    var itemId: String?
+    var detailView = DetailView()
+//    var itemId: String?
     let jsonLoader = JSONLoader()
-    var productTemp: Product?
-    private let contactButton: UIButton = {
-        return ButtonSetup.makeButton(title: "Позвонить",
-                                      backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1),
-                                      target: self,
-                                      action: #selector(contactButtonTapped))
-    }()
+//    var productTemp: Product?
+//    private let contactButton: UIButton = {
+//        return ButtonSetup.makeButton(title: "Позвонить",
+//                                      backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1),
+//                                      target: self,
+//                                      action: #selector(contactButtonTapped))
+//    }()
     
     private let emailButton: UIButton = {
         return ButtonSetup.makeButton(title: "Написать",
@@ -24,21 +25,21 @@ class DetailViewController: UIViewController {
                                       target: self,
                                       action: #selector(emailButtonTapped))
     }()
-    let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .gray)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }()
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
-    }()
+//    let activityIndicator: UIActivityIndicatorView = {
+//        let indicator = UIActivityIndicatorView(style: .gray)
+//        indicator.translatesAutoresizingMaskIntoConstraints = false
+//        return indicator
+//    }()
+//    let dateFormatter: DateFormatter = {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd"
+//        return formatter
+//    }()
     
-    let monthNames: [String] = [
-        "января", "февраля", "марта", "апреля", "мая", "июня",
-        "июля", "августа", "сентября", "октября", "ноября", "декабря"
-    ]
+//    let monthNames: [String] = [
+//        "января", "февраля", "марта", "апреля", "мая", "июня",
+//        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+//    ]
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -56,9 +57,9 @@ class DetailViewController: UIViewController {
     private var contentSize: CGSize {
         CGSize(width: view.frame.width, height: view.frame.height + 100)
     }
-    private let titleLabel = LabelSetup.makeLabel()
-    private let priceLabel = LabelSetup.makeLabel()
-    private let locationLabel = LabelSetup.makeLabel()
+//    private let titleLabel = LabelSetup.makeLabel()
+//    private let priceLabel = LabelSetup.makeLabel()
+//    private let locationLabel = LabelSetup.makeLabel()
     private let imageView = UIImageView()
     private let adressLabel = LabelSetup.makeLabel()
     private let descriptionLabel = LabelSetup.makeLabel()
@@ -66,21 +67,21 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(activityIndicator)
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        if let itemId = itemId {
+        view.addSubview(detailView.activityIndicator)
+            detailView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        detailView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        if let itemId = detailView.itemId {
             jsonLoader.fetchDetailData(itemId: itemId) { result in
                 switch result {
                 case .success(let product):
                     self.setupUI(product: product)
-                    self.productTemp = product
+                    self.detailView.productTemp = product
                     
                 case .failure(let error):
                     print("Ошибка при получении данных: \(error)")
                 }
                 DispatchQueue.main.async {
-                                self.activityIndicator.stopAnimating()
+                    self.detailView.activityIndicator.stopAnimating()
                             }
             }
         }
@@ -93,29 +94,31 @@ class DetailViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         contentView.addSubview(imageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(priceLabel)
-        contentView.addSubview(locationLabel)
+        contentView.addSubview(detailView.titleLabel)
+        contentView.addSubview(detailView.priceLabel)
+        contentView.addSubview(detailView.locationLabel)
         contentView.addSubview(adressLabel)
-        contentView.addSubview(contactButton)
+        detailView.contactButton = detailView.makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
+        contentView.addSubview(detailView.contactButton!)
         contentView.addSubview(emailButton)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(createdDate)
         
         
-        titleLabel.text = product.title
-        titleLabel.font = UIFont.systemFont(ofSize: 20)
-        priceLabel.text = product.price
-        locationLabel.text = product.location
+        detailView.titleLabel.text = product.title
+        detailView.titleLabel.font = UIFont.systemFont(ofSize: 20)
+        detailView.priceLabel.text = product.price
+        detailView.locationLabel.text = product.location
         adressLabel.text = product.address
         descriptionLabel.text = product.description
-        if let date = dateFormatter.date(from: product.createdDate) {
+        
+        if let date = detailView.dateFormatter.date(from: product.createdDate) {
             let calendar = Calendar.current
             let day = calendar.component(.day, from: date)
             let monthIndex = calendar.component(.month, from: date) - 1
             let year = calendar.component(.year, from: date)
             
-            let formattedDate = "\(day) \(monthNames[monthIndex]) \(year)"
+            let formattedDate = "\(day) \(detailView.monthNames[monthIndex]) \(year)"
             
             createdDate.text = formattedDate
         }
@@ -140,36 +143,36 @@ class DetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            detailView.titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.priceLabel.topAnchor.constraint(equalTo: detailView.titleLabel.bottomAnchor, constant: 20),
+            detailView.priceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            locationLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
-            locationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            detailView.locationLabel.topAnchor.constraint(equalTo: detailView.priceLabel.bottomAnchor, constant: 20),
+            detailView.locationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.locationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-            adressLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
+            adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 20),
             adressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             adressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         NSLayoutConstraint.activate([
-            contactButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
-            contactButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            detailView.contactButton!.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
+            detailView.contactButton!.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             emailButton.topAnchor.constraint(equalTo: adressLabel.bottomAnchor, constant: 20),
             emailButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: contactButton.bottomAnchor, constant: 20),
+            descriptionLabel.topAnchor.constraint(equalTo: detailView.contactButton!.bottomAnchor, constant: 20),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
@@ -200,13 +203,13 @@ class DetailViewController: UIViewController {
         }.resume()
     }
     @objc private func contactButtonTapped() {
-        if let product = productTemp {
+        if let product = detailView.productTemp {
             showInfoAlert(for: product, title: "", messagePrefix: "Номер телефона:", value: product.phoneNumber)
         }
     }
     
     @objc private func emailButtonTapped() {
-        if let product = productTemp {
+        if let product = detailView.productTemp {
             showInfoAlert(for: product, title: "", messagePrefix: "Email:", value: product.email)
         }
     }

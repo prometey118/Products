@@ -124,7 +124,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedAdvertisement = productsView.advertisements[indexPath.row]
         let detailViewController = DetailViewController()
-        detailViewController.itemId = selectedAdvertisement.id
+        detailViewController.detailView.itemId = selectedAdvertisement.id
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
