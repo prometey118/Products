@@ -3,10 +3,18 @@
 Приложение состоит из двух экранов:
 - Список товаров(стартовый экран). Добавлена возможность поиска по ключевым словам.
 <img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/ec47dae6-6105-4ce5-a9c7-1a17502fc917">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/3d112f96-5260-4cdb-a035-15e59b4e95b2">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/ed6a2e61-bc5d-45bc-b1dc-65fbaaac51d7">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/a2c932e9-9e13-4c16-be29-4dfceb1547af">
+
+
+
 
 - Детальная карточка товара(открывается при нажатии на один из товаров).
   
 <img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/6a0e6a49-446e-47ac-85f3-92bc3760c798">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/4b400400-79ba-487b-a2f6-bb5a70fa46ee">
+
 
 
 
