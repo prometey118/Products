@@ -29,7 +29,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
-        definesPresentationContext = true
+        definesPresentationContext = false
         setCollectionView()
         view.addSubview(productsView.activityIndicator)
         productsView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
