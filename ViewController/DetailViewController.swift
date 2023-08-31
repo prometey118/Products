@@ -132,8 +132,10 @@ class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             detailView.contactButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
             detailView.contactButton!.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.contactButton!.heightAnchor.constraint(equalToConstant: 44),
             detailView.emailButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
-            detailView.emailButton!.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
+            detailView.emailButton!.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20),
+            detailView.emailButton!.heightAnchor.constraint(equalToConstant: 44)
         ])
         
         NSLayoutConstraint.activate([
