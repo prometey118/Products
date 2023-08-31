@@ -38,6 +38,10 @@ class DetailViewController: UIViewController {
                     
                 case .failure(let error):
                     print("Ошибка при получении данных: \(error)")
+                    let alert = UIAlertController(title: "Ошибка", message: "Произошла ошибка при получении данных. Пожалуйста, попробуйте позже.", preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)
                 }
                 DispatchQueue.main.async {
                     self.detailView.activityIndicator.stopAnimating()
