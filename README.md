@@ -6,16 +6,22 @@
 
 - Детальная карточка товара(открывается при нажатии на один из товаров).
   
-<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/4d01b639-f335-4a09-a589-24e498a61f67">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/6a0e6a49-446e-47ac-85f3-92bc3760c798">
+
+
 
 ### Описание детального экрана
 - При нажатии кнопки позвонить, открывается окно, в котором возможно позвонить на указанный номер телефона.
 
-<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/4be854ca-d461-4ee4-921e-d7c74f469328">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/c3d22135-5aa1-4ad1-b1e3-ec77d0c1f9f7">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/9bd6a9d5-0d6b-4bb6-9629-3bb81c7ac155">
+
 
 - Аналогично при нажатии кнопки написать и затем отправить, открывается приложение почта, в котором возможно отправить e-mail по указаному адресу.
 
-<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/8ef1fb8f-2f3d-4b6f-8974-c451dddd38d6">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/93b590f9-2dc9-48c8-b961-1773ecdf2a37">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/988f741b-1530-4437-a319-544a3c0a328e">
+
 
 
 ### Приложение имеет три состояния:
