@@ -90,8 +90,10 @@ class DetailViewController: UIViewController {
     }
     
     func setUpConstraits() {
+        if UIScreen.main.bounds.height <= 667 {detailView.imageView.topAnchor.constraint(equalTo: detailView.contentView.topAnchor).isActive = true}
+        else { detailView.imageView.topAnchor.constraint(equalTo: detailView.contentView.topAnchor, constant: 90
+).isActive = true}
         NSLayoutConstraint.activate([
-            detailView.imageView.topAnchor.constraint(equalTo: detailView.contentView.topAnchor),
             detailView.imageView.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 10),
             detailView.imageView.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -10),
             detailView.imageView.heightAnchor.constraint(equalTo: detailView.imageView.widthAnchor)
@@ -131,7 +133,25 @@ class DetailViewController: UIViewController {
             detailView.createdDate.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.createdDate.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
-        
+        let verticalSpacing: CGFloat = 10 // Промежуток между элементами
+        let edgeInsets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) // Отступы от края scrollView
+
+        // Высота изображения равна его ширине
+        let imageHeight: CGFloat = view.frame.width
+
+        // Сумма высот всех элементов и промежутков
+        let totalHeight: CGFloat = imageHeight +
+            20 + verticalSpacing + // titleLabel
+            20 + verticalSpacing + // priceLabel
+            20 + verticalSpacing + // adressLabel
+            44 + verticalSpacing + // contactButton
+            44 + verticalSpacing + // emailButton
+            100 + verticalSpacing + // descriptionLabel
+            20 + verticalSpacing + // createdDate
+            edgeInsets.top + edgeInsets.bottom // Отступы от края scrollView
+
+        detailView.scrollView.contentSize = CGSize(width: view.frame.width, height: totalHeight)
+
     }
     
     func loadImage(from url: String) {
