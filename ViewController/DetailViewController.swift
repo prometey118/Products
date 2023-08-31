@@ -134,7 +134,7 @@ class DetailViewController: UIViewController {
             detailView.createdDate.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
         let verticalSpacing: CGFloat = 10
-        let edgeInsets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20) 
+        let edgeInsets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
 
         let imageHeight: CGFloat = view.frame.width
 
@@ -237,7 +237,8 @@ class DetailViewController: UIViewController {
         }
     }
     private func makePhoneCall(phoneNumber: String) {
-        if let phoneURL = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
+        let formattedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            if let phoneURL = URL(string: "tel:+\(formattedPhoneNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
             UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
         } else {
             print("Невозможно сделать звонок.")
