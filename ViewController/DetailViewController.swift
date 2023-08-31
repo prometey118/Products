@@ -45,7 +45,6 @@ class DetailViewController: UIViewController {
             detailView.contentView.addSubview(detailView.imageView)
         detailView.contentView.addSubview(detailView.titleLabel)
         detailView.contentView.addSubview(detailView.priceLabel)
-        detailView.contentView.addSubview(detailView.locationLabel)
         detailView.contentView.addSubview(detailView.adressLabel)
         detailView.contactButton = makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
         detailView.contentView.addSubview(detailView.contactButton!)
@@ -59,14 +58,12 @@ class DetailViewController: UIViewController {
         detailView.titleLabel.font = UIFont.systemFont(ofSize: 20)
         detailView.priceLabel.text = product.price
         detailView.priceLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        detailView.locationLabel.text = ""
-        detailView.locationLabel.font = UIFont.systemFont(ofSize: 17)
         detailView.locationLabel.textColor = .gray
         detailView.adressLabel.text = "\(product.location), \(product.address)"
         detailView.adressLabel.font = UIFont.systemFont(ofSize: 17)
-//        detailView.adressLabel.textColor = UIColor(red: 17/255, green: 18/255, blue: 33/255, alpha: 1)
         detailView.adressLabel.textColor = .gray
         detailView.descriptionLabel.text = product.description
+        detailView.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
         
         if let date = detailView.dateFormatter.date(from: product.createdDate) {
             let calendar = Calendar.current
@@ -77,6 +74,7 @@ class DetailViewController: UIViewController {
             let formattedDate = "\(day) \(detailView.monthNames[monthIndex]) \(year)"
             
             detailView.createdDate.text = formattedDate
+            detailView.createdDate.textColor = .gray
         }
         
         detailView.imageView.contentMode = .scaleAspectFill
@@ -112,12 +110,7 @@ class DetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            detailView.locationLabel.topAnchor.constraint(equalTo: detailView.priceLabel.bottomAnchor, constant: 15),
-            detailView.locationLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
-            detailView.locationLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
-        ])
-        NSLayoutConstraint.activate([
-            detailView.adressLabel.topAnchor.constraint(equalTo: detailView.locationLabel.bottomAnchor, constant: 5),
+            detailView.adressLabel.topAnchor.constraint(equalTo: detailView.priceLabel.bottomAnchor, constant: 10),
             detailView.adressLabel.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
             detailView.adressLabel.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
         ])
