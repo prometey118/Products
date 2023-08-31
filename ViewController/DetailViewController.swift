@@ -14,6 +14,12 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), primaryAction: UIAction(handler: { _ in
+                self.goBack()
+            }))
+            
+            navigationItem.leftBarButtonItem = backButton
+        
         view.addSubview(detailView.activityIndicator)
             detailView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         detailView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -53,9 +59,9 @@ class DetailViewController: UIViewController {
         detailView.contentView.addSubview(detailView.titleLabel)
         detailView.contentView.addSubview(detailView.priceLabel)
         detailView.contentView.addSubview(detailView.adressLabel)
-        detailView.contactButton = makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped))
+        detailView.contactButton = makeButton(title: "Позвонить", backgroundColor: UIColor(red: 29/255, green: 203/255, blue: 73/255, alpha: 1), target: self, action: #selector(contactButtonTapped), image: UIImage(named: "phone.fill")!)
         detailView.contentView.addSubview(detailView.contactButton!)
-        detailView.emailButton = makeButton(title: "Написать", backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1), target: self, action: #selector(emailButtonTapped))
+        detailView.emailButton = makeButton(title: "Написать", backgroundColor: UIColor(red: 17/255, green: 151/255, blue: 255/255, alpha: 1), target: self, action: #selector(emailButtonTapped), image: UIImage(named: "message.fill")!)
         detailView.contentView.addSubview(detailView.emailButton!)
         detailView.contentView.addSubview(detailView.descriptionLabel)
         detailView.contentView.addSubview(detailView.createdDate)
@@ -132,8 +138,10 @@ class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             detailView.contactButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
             detailView.contactButton!.leadingAnchor.constraint(equalTo: detailView.contentView.leadingAnchor, constant: 20),
+            detailView.contactButton!.heightAnchor.constraint(equalToConstant: 44),
             detailView.emailButton!.topAnchor.constraint(equalTo: detailView.adressLabel.bottomAnchor, constant: 20),
-            detailView.emailButton!.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20)
+            detailView.emailButton!.trailingAnchor.constraint(equalTo: detailView.contentView.trailingAnchor, constant: -20),
+            detailView.emailButton!.heightAnchor.constraint(equalToConstant: 44)
         ])
         
         NSLayoutConstraint.activate([
@@ -194,6 +202,9 @@ class DetailViewController: UIViewController {
             showInfoAlert(for: product, title: "", messagePrefix: "Email:", value: product.email)
         }
     }
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
     private func showInfoAlert(for product: Product, title: String, messagePrefix: String, value: String) {
         let alert = UIAlertController(title: title, message: "\(messagePrefix) \(value)", preferredStyle: .alert)
         
@@ -225,9 +236,9 @@ class DetailViewController: UIViewController {
     }
 
     
-     func makeButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector) -> UIButton {
+     func makeButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector, image: UIImage) -> UIButton {
         let button = UIButton()
-        button.setTitle(title, for: .normal)
+//        button.setTitle(title, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(target, action: action, for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -236,6 +247,32 @@ class DetailViewController: UIViewController {
         let screenWidth = UIScreen.main.bounds.width
         let buttonWidth: CGFloat = screenWidth * 0.4
         button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+         
+         let imageView = UIImageView(image: image)
+             imageView.contentMode = .scaleAspectFit
+             imageView.tintColor = .white
+             imageView.translatesAutoresizingMaskIntoConstraints = false
+             button.addSubview(imageView)
+
+             let titleLabel = UILabel()
+             titleLabel.text = title
+             titleLabel.textColor = .white
+             titleLabel.translatesAutoresizingMaskIntoConstraints = false
+             button.addSubview(titleLabel)
+
+             NSLayoutConstraint.activate([
+                 imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 15),
+                 imageView.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+                 imageView.widthAnchor.constraint(equalToConstant: 17),
+                 imageView.heightAnchor.constraint(equalToConstant: 17),// Примерная ширина изображения
+
+                 titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+                 titleLabel.centerYAnchor.constraint(equalTo: button.centerYAnchor),
+                 titleLabel.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: -10)
+             ])
+             
+             
+
         return button
     }
     private func openMailApp(withRecipient recipient: String) {
