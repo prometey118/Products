@@ -13,7 +13,7 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(detailView.activityIndicator)
             detailView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         detailView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -32,12 +32,19 @@ class DetailViewController: UIViewController {
                             }
             }
         }
+        if traitCollection.userInterfaceStyle == .dark {
+                overrideUserInterfaceStyle = .dark
+            } else {
+                overrideUserInterfaceStyle = .light
+            }
         
     }
     
     private func setupUI(product: Product) {
         detailView.contentSize = CGSize(width: view.frame.width, height: view.frame.height + 100)
         detailView.scrollView.frame = self.view.bounds
+        detailView.contentView.backgroundColor = .systemBackground
+        detailView.scrollView.backgroundColor = .systemBackground
         view.addSubview(detailView.scrollView)
         
         detailView.scrollView.addSubview(detailView.contentView)
@@ -64,7 +71,6 @@ class DetailViewController: UIViewController {
         detailView.adressLabel.textColor = .gray
         detailView.descriptionLabel.text = product.description
         detailView.descriptionLabel.font = UIFont.systemFont(ofSize: 19)
-        
         if let date = detailView.dateFormatter.date(from: product.createdDate) {
             let calendar = Calendar.current
             let day = calendar.component(.day, from: date)
@@ -74,16 +80,23 @@ class DetailViewController: UIViewController {
             let formattedDate = "\(day) \(detailView.monthNames[monthIndex]) \(year)"
             
             detailView.createdDate.text = formattedDate
-            detailView.createdDate.textColor = .gray
         }
         
         detailView.imageView.contentMode = .scaleAspectFill
-        
-        
         detailView.imageView.translatesAutoresizingMaskIntoConstraints = false
         detailView.imageView.layer.cornerRadius = 10
         detailView.imageView.layer.masksToBounds = true
         detailView.descriptionLabel.numberOfLines = 0
+        if traitCollection.userInterfaceStyle == .dark {
+                detailView.titleLabel.textColor = .white
+                detailView.priceLabel.textColor = .white
+                detailView.adressLabel.textColor = .lightGray
+                detailView.descriptionLabel.textColor = .white
+                detailView.createdDate.textColor = .lightGray
+            } else {
+                detailView.adressLabel.textColor = .gray
+                detailView.createdDate.textColor = .gray
+            }
         setUpConstraits()
         
         loadImage(from: product.imageURL)
