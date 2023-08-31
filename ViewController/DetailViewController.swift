@@ -165,12 +165,34 @@ class DetailViewController: UIViewController {
     }
     private func showInfoAlert(for product: Product, title: String, messagePrefix: String, value: String) {
         let alert = UIAlertController(title: title, message: "\(messagePrefix) \(value)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Скопировать", style: .default) { _ in
-            UIPasteboard.general.string = value
-        })
-        alert.addAction(UIAlertAction(title: "Отменить", style: .default, handler: nil))
+        
+        
+        let sendActionTitle: String
+        let sendActionStyle: UIAlertAction.Style
+        let sendActionHandler: ((UIAlertAction) -> Void)?
+        
+        if messagePrefix == "Номер телефона:" {
+            sendActionTitle = "Позвонить"
+            sendActionStyle = .default
+            sendActionHandler = { _ in
+                self.makePhoneCall(phoneNumber: value)
+            }
+        } else {
+            sendActionTitle = "Отправить"
+            sendActionStyle = .default
+            sendActionHandler = { _ in
+                self.openMailApp(withRecipient: value)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel, handler: nil)
+        
+        alert.addAction(UIAlertAction(title: sendActionTitle, style: sendActionStyle, handler: sendActionHandler))
+        alert.addAction(cancelAction)
+        
         present(alert, animated: true, completion: nil)
     }
+
     
      func makeButton(title: String, backgroundColor: UIColor, target: Any?, action: Selector) -> UIButton {
         let button = UIButton()
@@ -184,6 +206,24 @@ class DetailViewController: UIViewController {
         let buttonWidth: CGFloat = screenWidth * 0.4
         button.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
         return button
+    }
+    private func openMailApp(withRecipient recipient: String) {
+        guard let emailURL = URL(string: "mailto:\(recipient)") else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(emailURL) {
+            UIApplication.shared.open(emailURL, options: [:], completionHandler: nil)
+        } else {
+            print("Невозможно открыть почтовое приложение.")
+        }
+    }
+    private func makePhoneCall(phoneNumber: String) {
+        if let phoneURL = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
+            UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
+        } else {
+            print("Невозможно сделать звонок.")
+        }
     }
 }
 
