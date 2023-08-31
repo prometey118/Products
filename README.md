@@ -36,6 +36,8 @@
 - Отображение ошибки
 
 <img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/e3d588e5-cd2c-46fe-b864-c02d4db90455">
+<img width="300" alt="image" src="https://github.com/prometey118/Products/assets/123263657/9215fffb-af3a-47c9-b129-c18a967a8ec0">
+
 
 - Состояние загрузки
 
