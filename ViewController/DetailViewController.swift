@@ -201,20 +201,11 @@ class DetailViewController: UIViewController {
             }
         }.resume()
     }
-    @objc private func contactButtonTapped() {
-        if let product = detailView.productTemp {
-            showInfoAlert(for: product, title: "", messagePrefix: "Номер телефона:", value: product.phoneNumber)
-        }
-    }
     
-    @objc private func emailButtonTapped() {
-        if let product = detailView.productTemp {
-            showInfoAlert(for: product, title: "", messagePrefix: "Email:", value: product.email)
-        }
-    }
-    @objc func goBack() {
-        navigationController?.popViewController(animated: true)
-    }
+    
+}
+
+extension DetailViewController {
     private func showInfoAlert(for product: Product, title: String, messagePrefix: String, value: String) {
         let alert = UIAlertController(title: title, message: "\(messagePrefix) \(value)", preferredStyle: .alert)
         
@@ -285,27 +276,7 @@ class DetailViewController: UIViewController {
 
         return button
     }
-    private func openMailApp(withRecipient recipient: String) {
-        guard let emailURL = URL(string: "mailto:\(recipient)") else {
-            return
-        }
-        
-        if UIApplication.shared.canOpenURL(emailURL) {
-            UIApplication.shared.open(emailURL, options: [:], completionHandler: nil)
-        } else {
-            print("Невозможно открыть почтовое приложение.")
-        }
-    }
-    private func makePhoneCall(phoneNumber: String) {
-        let formattedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-            if let phoneURL = URL(string: "tel:+\(formattedPhoneNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
-            UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
-        } else {
-            print("Невозможно сделать звонок.")
-        }
-    }
 }
-
 extension DetailViewController {
     func isInternetAvailable() -> Bool {
         var zeroAddress = sockaddr_in()
@@ -335,5 +306,43 @@ extension DetailViewController {
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
+    }
+}
+extension DetailViewController {
+    @objc private func contactButtonTapped() {
+        if let product = detailView.productTemp {
+            showInfoAlert(for: product, title: "", messagePrefix: "Номер телефона:", value: product.phoneNumber)
+        }
+    }
+    
+    @objc private func emailButtonTapped() {
+        if let product = detailView.productTemp {
+            showInfoAlert(for: product, title: "", messagePrefix: "Email:", value: product.email)
+        }
+    }
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension DetailViewController {
+    private func openMailApp(withRecipient recipient: String) {
+        guard let emailURL = URL(string: "mailto:\(recipient)") else {
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(emailURL) {
+            UIApplication.shared.open(emailURL, options: [:], completionHandler: nil)
+        } else {
+            print("Невозможно открыть почтовое приложение.")
+        }
+    }
+    private func makePhoneCall(phoneNumber: String) {
+        let formattedPhoneNumber = phoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+            if let phoneURL = URL(string: "tel:+\(formattedPhoneNumber)"), UIApplication.shared.canOpenURL(phoneURL) {
+            UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
+        } else {
+            print("Невозможно сделать звонок.")
+        }
     }
 }
