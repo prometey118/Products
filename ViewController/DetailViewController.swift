@@ -14,6 +14,12 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), primaryAction: UIAction(handler: { _ in
+                self.goBack()
+            }))
+            
+            navigationItem.leftBarButtonItem = backButton
+        
         view.addSubview(detailView.activityIndicator)
             detailView.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         detailView.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -195,6 +201,9 @@ class DetailViewController: UIViewController {
         if let product = detailView.productTemp {
             showInfoAlert(for: product, title: "", messagePrefix: "Email:", value: product.email)
         }
+    }
+    @objc func goBack() {
+        navigationController?.popViewController(animated: true)
     }
     private func showInfoAlert(for product: Product, title: String, messagePrefix: String, value: String) {
         let alert = UIAlertController(title: title, message: "\(messagePrefix) \(value)", preferredStyle: .alert)
