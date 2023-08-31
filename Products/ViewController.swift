@@ -14,11 +14,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         if !isInternetAvailable() {
             showNoInternetAlert()
             return
         }
+        if traitCollection.userInterfaceStyle == .dark {
+                overrideUserInterfaceStyle = .dark
+            } else {
+                overrideUserInterfaceStyle = .light
+            }
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -105,9 +110,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             nameView.numberOfLines = 0
             priceView.font = UIFont.boldSystemFont(ofSize: 16)
             locationView.font = UIFont.systemFont(ofSize: 14)
-            locationView.textColor = .gray
             createdDateView.font = UIFont.systemFont(ofSize: 14)
-            createdDateView.textColor = .gray
+            if traitCollection.userInterfaceStyle == .dark {
+                    nameView.textColor = .white
+                    locationView.textColor = .lightGray
+                    createdDateView.textColor = .lightGray
+                } else {
+                    locationView.textColor = .gray
+                    createdDateView.textColor = .gray
+                }
         }
         
         func setUpConstraits() {
@@ -246,7 +257,9 @@ extension ViewController {
         detailViewController.detailView.itemId = selectedAdvertisement.id
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 20  
+        }
 }
 
 extension ViewController: UISearchResultsUpdating {

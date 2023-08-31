@@ -55,8 +55,8 @@
 				C46829CE2A9FAD4900BE6887 /* ViewController */,
 				C46829CD2A9FAD3500BE6887 /* ViewModel */,
 				C46829CC2A9FAD2100BE6887 /* View */,
-				C41A9B2D2A97DF3A0047691E /* Products */,
 				C4120BCB2A98AE9A00CFFE82 /* JsonLoad.swift */,
+				C41A9B2D2A97DF3A0047691E /* Products */,
 				C41A9B2C2A97DF3A0047691E /* Products */,
 			);
 			sourceTree = "<group>";
