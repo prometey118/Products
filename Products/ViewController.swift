@@ -14,7 +14,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         
         super.viewDidLoad()
-//        view.backgroundColor = .white
         view.backgroundColor = .systemBackground
         if !isInternetAvailable() {
             showNoInternetAlert()
@@ -117,7 +116,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     locationView.textColor = .lightGray
                     createdDateView.textColor = .lightGray
                 } else {
-                    // Настройки для светлой темы
                     locationView.textColor = .gray
                     createdDateView.textColor = .gray
                 }
@@ -259,7 +257,9 @@ extension ViewController {
         detailViewController.detailView.itemId = selectedAdvertisement.id
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+            return 20  
+        }
 }
 
 extension ViewController: UISearchResultsUpdating {
